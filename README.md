@@ -72,40 +72,49 @@ const { CoordsEmitter, CoordsSubscriber } = createContextEmission('coords')
 // returned component's names and will be used as the prop name later
 
 // Here's the component that keeps the device's position in state
-class CoordsProvider extends React.Component {
+const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
+
+class GeoProvider extends React.Component {
 
   state = {
-    coords: null
+    geo: null
   }
 
   componentDidMount() {
-    navigator.geolocation.watchPosition((coords) => {
-      this.setState({ coords })
+    navigator.geolocation.watchPosition((geo) => {
+      this.setState({ geo })
     })
   }
 
   render() {
     return (
       // render the Emitter
-      <CoordsEmitter coords={this.state.coords}>
+      <GeoEmitter geo={this.state.geo}>
         {this.props.children}
-      </CoordsEmitter>
+      </GeoEmitter>
     )
   }
 
 }
 
-// Now, any arbitrary descendant of CoordsProvider can access the coords by
-// rendering a CoordsSubscriber, if the coords change and we're below a
-// `shouldComponentUpdate` we'll still get an update down here.
+// Now, any arbitrary descendant of GeoProvider can access the geo
+// information by rendering a GeoSubscriber, if the geo data changes
+// and we're below a `shouldComponentUpdate` we'll still get an update
 class SomeDeepComponent extends React.Component {
   render() {
     return (
-      <CoordsSubscriber>
-        {({ coords }) => (
-          <pre>{JSON.stringify(coords, null, 2)}</pre>
+      <GeoSubscriber>
+        {({ geo }) => geo ? (
+          <dl>
+            <dt>latitude</dt>
+            <dd>{geo.coords.latitude}</dd>
+            <dt>longitude</dt>
+            <dd>{geo.coords.longitude}</dd>
+          </dl>
+        ) : (
+          <p>Getting geoposition...</p>
         )}
-      </CoordsSubscriber>
+      </GeoSubscriber>
     )
   }
 }
@@ -124,6 +133,7 @@ For example:
 
 string | Emitter | Subscriber
 -------|-----------------|-----------
-`'coords'` | `<CoordsEmitter coords={val}>` | `<CoordsSubscriber>{({ coords }) => ()}</CoordsSubscriber>`
+`'geo'` | `<GeoEmitter geo={val}>` | `<GeoSubscriber>{({ geo }) => ()}</GeoSubscriber>`
 `'foo'` | `<FooEmitter foo={val}>` | `<FooSubscriber>{({ foo }) => ()}</FooSubscriber>`
+`'bar'` | `<BarEmitter bar={val}>` | `<BarSubscriber>{({ foo }) => ()}</BarSubscriber>`
 
