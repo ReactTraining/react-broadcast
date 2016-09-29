@@ -1,9 +1,14 @@
 import React from 'react'
-import createContextEmission from 'react-context-emission'
+import { createContextEmitter, createContextSubscriber } from '../../index'
 
-const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
+const GeoEmitter = createContextEmitter('geo')
+const GeoSubscriber = createContextSubscriber('geo')
 
 class GeoProvider extends React.Component {
+
+  static propTypes = {
+    children: React.PropTypes.node
+  }
 
   state = {
     geo: null
@@ -17,7 +22,7 @@ class GeoProvider extends React.Component {
 
   render() {
     return (
-      <GeoEmitter geo={this.state.geo}>
+      <GeoEmitter value={this.state.geo}>
         {this.props.children}
       </GeoEmitter>
     )

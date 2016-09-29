@@ -12,7 +12,7 @@ class ShouldComponentUpdateNeverHAHA extends React.Component {
       <div>
         <p>Even though I say I will never update, the stuff below can.</p>
         <GeoSubscriber>
-          {({ geo }) => geo ? (
+          {(geo) => geo ? (
             <dl>
               <dt>latitude</dt>
               <dd>{geo.coords.latitude}</dd>

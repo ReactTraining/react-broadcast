@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import expect from 'expect'
 import { EventEmitter } from 'events'
-import createContextEmission from '../index'
+import { createContextEmitter, createContextSubscriber } from '../index'
 
 it('works', (done) => {
 
@@ -15,7 +15,8 @@ it('works', (done) => {
 
   // A component has some state it wants to make available to descendants
   // 1. We create our Emitter and Subscriber components
-  const { CheeseEmitter, CheeseSubscriber } = createContextEmission('cheese')
+  const CheeseEmitter = createContextEmitter('cheese')
+  const CheeseSubscriber = createContextSubscriber('cheese')
 
   class ComponentWithStateForDescendants extends React.Component {
     constructor() {
@@ -35,7 +36,7 @@ it('works', (done) => {
       //    it the value we want accessible through context as a prop
       //    by the same name as when the Emitter was created
       return (
-        <CheeseEmitter cheese={this.state.cheese}>
+        <CheeseEmitter value={this.state.cheese}>
           {this.props.children}
         </CheeseEmitter>
       )
@@ -60,7 +61,7 @@ it('works', (done) => {
   render((
     <ComponentWithStateForDescendants>
       <CheeseSubscriber>
-        {({ cheese }) => {
+        {(cheese) => {
           actualCheese = cheese
           return null
         }}

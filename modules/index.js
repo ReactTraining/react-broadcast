@@ -1,19 +1,11 @@
 import React, { PropTypes } from 'react'
 
-const capitalize = (str) =>
-  str.charAt(0).toUpperCase() + str.slice(1)
-
-const createContextEmission = (contextKey) => {
-  const capitalized = capitalize(contextKey)
-  const emitterName = `${capitalized}Emitter`
-  const subscriberName = `${capitalized}Subscriber`
-
+const createContextEmitter = (contextKey) => (
   class Emitter extends React.Component {
 
-    static displayName = emitterName
-
     static propTypes = {
-      children: PropTypes.node
+      children: PropTypes.node,
+      value: PropTypes.any
     }
 
     static childContextTypes = {
@@ -29,7 +21,7 @@ const createContextEmission = (contextKey) => {
       return {
         [contextKey]: {
           getInitialValue: () => {
-            return this.props[contextKey]
+            return this.props.value
           },
 
           subscribe: (subscriber) => {
@@ -45,7 +37,7 @@ const createContextEmission = (contextKey) => {
     }
 
     componentWillReceiveProps(nextProps) {
-      this.subscribers.forEach(f => f(nextProps[contextKey]))
+      this.subscribers.forEach(f => f(nextProps.value))
     }
 
     render() {
@@ -53,10 +45,11 @@ const createContextEmission = (contextKey) => {
     }
 
   }
+)
+
+const createContextSubscriber = (contextKey) => (
 
   class Subscriber extends React.Component {
-
-    static displayName = subscriberName
 
     static propTypes = {
       children: PropTypes.func
@@ -70,12 +63,10 @@ const createContextEmission = (contextKey) => {
       super()
       const emitter = context[contextKey]
       this.state = {
-        [contextKey]: emitter.getInitialValue()
+        value: emitter.getInitialValue()
       }
       this.unsubscribe = emitter.subscribe((value) => {
-        this.setState({
-          [contextKey]: value
-        })
+        this.setState({ value })
       })
     }
 
@@ -84,15 +75,10 @@ const createContextEmission = (contextKey) => {
     }
 
     render() {
-      return this.props.children(this.state)
+      return this.props.children(this.state.value)
     }
 
   }
+)
 
-  return {
-    [emitterName]: Emitter,
-    [subscriberName]: Subscriber
-  }
-}
-
-export default createContextEmission
+export { createContextEmitter, createContextSubscriber }

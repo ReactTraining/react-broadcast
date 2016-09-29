@@ -15,10 +15,10 @@ Then with a module bundler like [webpack](https://webpack.github.io/), use as yo
 
 ```js
 // using an ES6 transpiler, like babel
-import createContextEmission from 'react-context-emission'
+import { createContextEmitter, createContextSubscriber } from 'react-context-emission'
 
 // not using an ES6 transpiler
-var createContextEmission = require('react-context-emission').default
+const { createContextEmitter, createContextSubscriber } = require('react-context-emission')
 ```
 
 The UMD build is also available on [npmcdn](https://npmcdn.com):
@@ -48,11 +48,11 @@ This library gives you a way to create components to do the provide/subscribe da
 Let's say you want to listen to the geo location and make that data available anywhere in the app.
 
 ```js
-import createContextEmission from 'react-context-emission'
+import { createContextEmitter, createContextSubscriber } from 'react-context-emission'
 
-const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
-// the string "geo" is important, make sure to read the table below
-// this example to understand why
+const GeoEmitter = createContextEmitter('geo')
+const GeoSubscriber = createContextSubscriber('geo')
+// the string "geo" is the key used on context
 
 // Here's the component that keeps the device's position in state
 class GeoProvider extends React.Component {
@@ -85,7 +85,7 @@ class SomeDeepComponent extends React.Component {
   render() {
     return (
       <GeoSubscriber>
-        {({ geo }) => geo ? (
+        {(geo) => geo ? (
           <dl>
             <dt>latitude</dt>
             <dd>{geo.coords.latitude}</dd>
@@ -101,31 +101,13 @@ class SomeDeepComponent extends React.Component {
 }
 ```
 
-The string you pass to `createContextEmission(string)` is important.
-
-1. It determines the name of the components returned.
-- It is the name of the prop you pass to the `Emitter`
-- It is the name of the key passed to the render callback of
-  `Subscriber`
-- It is used as the context key
-- It is used as the state key in the `Emitter`
-
-For example:
-
-string | Emitter | Subscriber
--------|-----------------|-----------
-`'geo'` | `<GeoEmitter geo={val}>` | `<GeoSubscriber>{({ geo }) => ()}</GeoSubscriber>`
-`'foo'` | `<FooEmitter foo={val}>` | `<FooSubscriber>{({ foo }) => ()}</FooSubscriber>`
-`'bar'` | `<BarEmitter bar={val}>` | `<BarSubscriber>{({ foo }) => ()}</BarSubscriber>`
-
-
 Some folks would prefer a higher order component that passes the geo props to a wrapped component instead of a render callback, that's pretty quick to implement:
 
 ```js
 const withGeo = (Component) => (
   (props) => (
     <GeoSubscriber>
-      {({ geo }) => (
+      {(geo) => (
         <Component geo={geo} {...props}/>
       )}
     </GeoSubscriber>
