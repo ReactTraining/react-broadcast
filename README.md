@@ -71,7 +71,7 @@ const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
 // the string "geo" is important, make sure to read the table below
 // this example to understand why
 
-// Here's the component that keeps the device's position in state, and
+// Here's the component that keeps the device's position in state
 class GeoProvider extends React.Component {
 
   state = {
