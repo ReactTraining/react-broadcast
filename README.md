@@ -67,13 +67,11 @@ data available anywhere in the app.
 ```js
 import createContextEmission from 'react-context-emission'
 
-const { CoordsEmitter, CoordsSubscriber } = createContextEmission('coords')
-// the string "coords" is important, it gets capitalized and used as the
-// returned component's names and will be used as the prop name later
-
-// Here's the component that keeps the device's position in state
 const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
+// the string "geo" is important, read make sure to read the table below
+// this example to understand why
 
+// Here's the component that keeps the device's position in state, and
 class GeoProvider extends React.Component {
 
   state = {
