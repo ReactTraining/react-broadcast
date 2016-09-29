@@ -21,10 +21,10 @@ import { createContextEmitter, createContextSubscriber } from 'react-context-emi
 const { createContextEmitter, createContextSubscriber } = require('react-context-emission')
 ```
 
-The UMD build is also available on [npmcdn](https://npmcdn.com):
+The UMD build is also available on [unpkg](https://unpkg.com):
 
 ```html
-<script src="https://npmcdn.com/react-context-emission/umd/react-context-emission.min.js"></script>
+<script src="https://unpkg.com/react-context-emission/umd/react-context-emission.min.js"></script>
 ```
 
 You can find the library on `window.ReactContextEmission`.
