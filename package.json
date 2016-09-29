@@ -1,6 +1,6 @@
 {
   "name": "react-context-emission",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "React context wrapper to safely provide props deeply in the component tree.",
   "repository": "ReactTraining/react-context-emission",
   "author": "Ryan Florence",
