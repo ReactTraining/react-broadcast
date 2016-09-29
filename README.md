@@ -31,38 +31,21 @@ You can find the library on `window.ReactContextEmission`.
 
 ## Motivation
 
-Sometimes you have some state in a component you want to make available
-to any arbitrary descendant in the component tree. Passing props deeply
-gets cumbersome, recursively cloning is not very exciting,
-monkey-patching createElement is terrifying, and externalizing that
-state with another library requires you to bail out of React and
-decrease the reusability of your component.
+Sometimes you have some state in a component you want to make available to any arbitrary descendant in the component tree. Passing props deeply gets cumbersome, recursively cloning is not very exciting, monkey-patching createElement is terrifying, and externalizing that state with another library requires you to bail out of React and decrease the reusability of your component.
 
 :(
 
-Context, however, ~seems~ like a great place to put that state. It's
-available arbitrarily deep in the tree and maintains React's
-encapsulated composability and reusability. It would be enough on its
-own, except that accessing the values on context is not reliable.
+Context, however, ~seems~ like a great place to put that state. It's available arbitrarily deep in the tree and maintains React's encapsulated composability and reusability. It would be enough on its own, except that accessing the values on context is not reliable.
 
-Any component in the tree that implements `shouldComponentUpdate` has no
-way of knowing if the values on context have changed. This means that a
-`setState` on a context providing component won't always cause a
-rerender of components deeper in the tree that need that state from
-context.
+Any component in the tree that implements `shouldComponentUpdate` has no way of knowing if the values on context have changed. This means that a `setState` on a context providing component won't always cause a rerender of components deeper in the tree that need that state from context.
 
-So, instead of using context as a place to store values, it can be used
-to provide a way to subscribe to the values, ensuring deep rerenders
-when the values change.
+So, instead of using context as a place to store values, it can be used to provide a way to subscribe to the values, ensuring deep rerenders when the values change.
 
-This library gives you a way to create components to do the
-provide/subscribe dance declaratively inside your app, providing state
-from up high to down low with ease.
+This library gives you a way to create components to do the provide/subscribe dance declaratively inside your app, providing state from up high to down low with ease.
 
 ## Usage
 
-Let's say you want to listen to the geo location and make that
-data available anywhere in the app.
+Let's say you want to listen to the geo location and make that data available anywhere in the app.
 
 ```js
 import createContextEmission from 'react-context-emission'
@@ -135,3 +118,17 @@ string | Emitter | Subscriber
 `'foo'` | `<FooEmitter foo={val}>` | `<FooSubscriber>{({ foo }) => ()}</FooSubscriber>`
 `'bar'` | `<BarEmitter bar={val}>` | `<BarSubscriber>{({ foo }) => ()}</BarSubscriber>`
 
+
+Some folks would prefer a higher order component that passes the geo props to a wrapped component instead of a render callback, that's pretty quick to implement:
+
+```js
+const withGeo = (Component) => (
+  (props) => (
+    <GeoSubscriber>
+      {({ geo }) => (
+        <Component geo={geo} {...props}/>
+      )}
+    </GeoSubscriber>
+  )
+)
+```
