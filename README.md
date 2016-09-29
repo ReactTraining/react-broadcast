@@ -68,7 +68,7 @@ data available anywhere in the app.
 import createContextEmission from 'react-context-emission'
 
 const { GeoEmitter, GeoSubscriber } = createContextEmission('geo')
-// the string "geo" is important, read make sure to read the table below
+// the string "geo" is important, make sure to read the table below
 // this example to understand why
 
 // Here's the component that keeps the device's position in state, and
