@@ -61,7 +61,7 @@ from up high to down low with ease.
 
 ## Usage
 
-Let's say you want to listen to listen to the geo location and make that
+Let's say you want to listen to the geo location and make that
 data available anywhere in the app.
 
 ```js
