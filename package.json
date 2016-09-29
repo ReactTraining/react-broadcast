@@ -15,6 +15,11 @@
     "test": "npm run lint && karma start",
     "lint": "eslint modules"
   },
+  "files": [
+    "README.md",
+    "index.js",
+    "umd"
+  ],
   "peerDependencies": {
     "react": "15.x"
   },
