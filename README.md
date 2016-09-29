@@ -116,7 +116,7 @@ string | Emitter | Subscriber
 -------|-----------------|-----------
 `'geo'` | `<GeoEmitter geo={val}>` | `<GeoSubscriber>{({ geo }) => ()}</GeoSubscriber>`
 `'foo'` | `<FooEmitter foo={val}>` | `<FooSubscriber>{({ foo }) => ()}</FooSubscriber>`
-`'bar'` | `<BarEmitter bar={val}>` | `<BarSubscriber>{({ foo }) => ()}</BarSubscriber>`
+`'bar'` | `<BarEmitter bar={val}>` | `<BarSubscriber>{({ bar }) => ()}</BarSubscriber>`
 
 
 Some folks would prefer a higher order component that passes the geo props to a wrapped component instead of a render callback, that's pretty quick to implement:
