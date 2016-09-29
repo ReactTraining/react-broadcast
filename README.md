@@ -70,7 +70,7 @@ class GeoProvider extends React.Component {
   render() {
     return (
       // render the Emitter
-      <GeoEmitter geo={this.state.geo}>
+      <GeoEmitter value={this.state.geo}>
         {this.props.children}
       </GeoEmitter>
     )
