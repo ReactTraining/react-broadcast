@@ -45,6 +45,10 @@ This library gives you a way to create components to do the provide/subscribe da
 
 ## Usage
 
+First, a fair warning about using this a lot:
+
+https://twitter.com/sebmarkbage/status/781371101708296192
+
 Let's say you want to listen to the geo location and make that data available anywhere in the app.
 
 ```js
