@@ -104,7 +104,7 @@ class SomeDeepComponent extends React.Component {
 The string you pass to `createContextEmission(string)` is important.
 
 1. It determines the name of the components returned.
-- It is the name of the prop you pass to the `Subscriber`
+- It is the name of the prop you pass to the `Emitter`
 - It is the name of the key passed to the render callback of
   `Subscriber`
 - It is used as the context key
