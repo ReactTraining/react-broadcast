@@ -1,4 +1,7 @@
-# react-broadcast
+# react-broadcast [![npm package][npm-badge]][npm]
+
+[npm-badge]: https://img.shields.io/npm/v/react-broadcast.svg?style=flat-square
+[npm]: https://www.npmjs.com/package/react-broadcast
 
 [`react-broadcast`](https://www.npmjs.com/package/react-broadcast) provides a way for React components to safely propagate state changes to their descendants deep in the component hierarchy, bypassing intermediaries who `return false` from [`shouldComponentUpdate`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate).
 
