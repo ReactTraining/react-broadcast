@@ -4,7 +4,7 @@ import {
   broadcasts as broadcastsType
 } from './PropTypes'
 
-const createBroadcast = (channel, initialValue) => {
+const createBroadcast = (initialValue) => {
   let listeners = []
   let currentValue = initialValue
 
@@ -49,8 +49,8 @@ class Broadcast extends React.Component {
   }
 
   getBroadcastsContext() {
-    const { broadcasts } = this.context
     const { channel } = this.props
+    const { broadcasts } = this.context
 
     return {
       ...broadcasts,
@@ -65,7 +65,7 @@ class Broadcast extends React.Component {
   }
 
   componentWillMount() {
-    this.broadcast = createBroadcast(this.props.channel, this.props.value)
+    this.broadcast = createBroadcast(this.props.value)
   }
 
   componentWillReceiveProps(nextProps) {
