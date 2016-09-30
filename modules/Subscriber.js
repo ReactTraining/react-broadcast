@@ -28,10 +28,14 @@ class Subscriber extends React.Component {
       channel
     )
 
-    subscribe(value => {
+    this.unsubscribe = subscribe(value => {
       // This function will be called once immediately.
       this.setState({ value })
     })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   render() {
