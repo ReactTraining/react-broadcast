@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 
 const createContextEmitter = (contextKey) => (
+
   class Emitter extends React.Component {
 
     static propTypes = {
@@ -62,12 +63,16 @@ const createContextSubscriber = (contextKey) => (
     constructor(props, context) {
       super()
       const emitter = context[contextKey]
-      this.state = {
-        value: emitter.getInitialValue()
+      if (emitter) {
+        this.state = {
+          value: emitter.getInitialValue()
+        }
+        this.unsubscribe = emitter.subscribe((value) => {
+          this.setState({ value })
+        })
+      } else {
+        this.state = {}
       }
-      this.unsubscribe = emitter.subscribe((value) => {
-        this.setState({ value })
-      })
     }
 
     componentWillUnmount() {
