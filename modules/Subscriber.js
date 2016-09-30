@@ -1,8 +1,5 @@
 import invariant from 'invariant'
 import React, { PropTypes } from 'react'
-import {
-  broadcasts as broadcastsType
-} from './PropTypes'
 
 /**
  * A <Subscriber> pulls the value for a channel off of context.broadcasts
@@ -10,12 +7,7 @@ import {
  */
 class Subscriber extends React.Component {
   static contextTypes = {
-    broadcasts: broadcastsType.isRequired
-  }
-
-  static propTypes = {
-    channel: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired
+    broadcasts: React.PropTypes.object
   }
 
   state = {
@@ -45,6 +37,13 @@ class Subscriber extends React.Component {
 
   render() {
     return this.props.children(this.state.value)
+  }
+}
+
+if (__DEV__) {
+  Subscriber.propTypes = {
+    channel: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired
   }
 }
 

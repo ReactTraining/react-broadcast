@@ -1,8 +1,5 @@
 import invariant from 'invariant'
 import React, { PropTypes } from 'react'
-import {
-  broadcasts as broadcastsType
-} from './PropTypes'
 
 const createBroadcast = (initialValue) => {
   let listeners = []
@@ -36,18 +33,14 @@ const createBroadcast = (initialValue) => {
  */
 class Broadcast extends React.Component {
   static contextTypes = {
-    broadcasts: broadcastsType
-  }
-
-  static propTypes = {
-    channel: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    value: PropTypes.any
+    broadcasts: PropTypes.object
   }
 
   static childContextTypes = {
-    broadcasts: broadcastsType.isRequired
+    broadcasts: PropTypes.object.isRequired
   }
+
+  broadcast = createBroadcast(this.props.value)
 
   getBroadcastsContext() {
     const { channel } = this.props
@@ -65,10 +58,6 @@ class Broadcast extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.broadcast = createBroadcast(this.props.value)
-  }
-
   componentWillReceiveProps(nextProps) {
     invariant(
       this.props.channel === nextProps.channel,
@@ -81,6 +70,14 @@ class Broadcast extends React.Component {
 
   render() {
     return React.Children.only(this.props.children)
+  }
+}
+
+if (__DEV__) {
+  Broadcast.propTypes = {
+    channel: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    value: PropTypes.any
   }
 }
 
