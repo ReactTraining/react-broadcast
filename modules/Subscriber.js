@@ -4,6 +4,10 @@ import {
   broadcasts as broadcastsType
 } from './PropTypes'
 
+/**
+ * A <Subscriber> pulls the value for a channel off of context.broadcasts
+ * and passes it to its children function.
+ */
 class Subscriber extends React.Component {
   static contextTypes = {
     broadcasts: broadcastsType.isRequired

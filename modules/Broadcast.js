@@ -25,6 +25,15 @@ const createBroadcast = (channel, initialValue) => {
   }
 }
 
+/**
+ * A <Broadcast> provides a generic way for descendants to "subscribe"
+ * to some value that changes over time, bypassing any intermediate
+ * shouldComponentUpdate's in the hierarchy. It puts all subscription
+ * functions on context.broadcasts, keyed by "channel".
+ *
+ * To use it, a subscriber must opt-in to context.broadcasts. See the
+ * <Subscriber> component for a reference implementation.
+ */
 class Broadcast extends React.Component {
   static contextTypes = {
     broadcasts: broadcastsType
