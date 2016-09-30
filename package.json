@@ -8,6 +8,6 @@
     "invariant": "^2.2.1"
   },
   "peerDependencies": {
-    "react": "^15.3.2"
+    "react": "15.x"
   }
 }
