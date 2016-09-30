@@ -14,7 +14,8 @@ class Subscriber extends React.Component {
   }
 
   static propTypes = {
-    channel: PropTypes.string.isRequired
+    channel: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired
   }
 
   state = {
