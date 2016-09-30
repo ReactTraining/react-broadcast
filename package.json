@@ -1,9 +1,9 @@
 {
   "name": "react-broadcast",
   "version": "0.0.1",
+  "description": "Broadcast state changes to React components deep in the hierarchy",
   "author": "Michael Jackson",
   "license": "MIT",
-  "main": "index.js",
   "scripts": {
     "build": "node ./scripts/build.js",
     "build-cjs": "babel ./modules -d . --ignore '__tests__'",
