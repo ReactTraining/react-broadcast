@@ -41,6 +41,7 @@ class Broadcast extends React.Component {
 
   static propTypes = {
     channel: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
     value: PropTypes.any
   }
 
