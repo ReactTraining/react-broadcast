@@ -39,13 +39,19 @@ class Broadcast extends React.Component {
     broadcasts: broadcastsType.isRequired
   }
 
-  getChildContext() {
+  getBroadcastsContext() {
     const { broadcasts } = this.context
     const { channel } = this.props
 
     return {
       ...broadcasts,
       [channel]: this.broadcast.subscribe
+    }
+  }
+
+  getChildContext() {
+    return {
+      broadcasts: this.getBroadcastsContext()
     }
   }
 
