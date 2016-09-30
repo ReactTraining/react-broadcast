@@ -10,6 +10,7 @@
     "build-umd": "webpack modules/index.js umd/react-broadcast.js",
     "build-min": "webpack -p modules/index.js umd/react-broadcast.min.js",
     "prepublish": "node ./scripts/build.js",
+    "release": "node ./scripts/release.js",
     "test": "npm run lint",
     "lint": "eslint modules"
   },
@@ -35,6 +36,7 @@
     "gzip-size": "^3.0.0",
     "in-publish": "^2.0.0",
     "pretty-bytes": "^4.0.2",
+    "readline-sync": "^1.4.4",
     "webpack": "^1.13.2"
   }
 }
