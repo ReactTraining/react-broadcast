@@ -1,0 +1,13 @@
+{
+  "name": "react-broadcast",
+  "version": "0.0.1",
+  "author": "Michael Jackson",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "invariant": "^2.2.1"
+  },
+  "peerDependencies": {
+    "react": "^15.3.2"
+  }
+}
