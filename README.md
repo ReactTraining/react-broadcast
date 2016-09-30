@@ -4,7 +4,7 @@
 
 It was originally built to solve issues that arose from using [`react-router`](https://www.npmjs.com/package/react-router) together with [`react-redux`](https://www.npmjs.com/package/react-redux). The router needed a safe way to communicate state changes to `<Link>`s deep in the component hierarchy, but `react-redux` relies on `shouldComponentUpdate` for performance. `react-broadcast` allows the router to work seamlessly with Redux and any other component that uses `shouldComponentUpdate`.
 
-**Please note:** As with anything that uses context, this library is experimental. It may cease working in some future version of React. For now, it's a practical workaround for the router. If we discover some better way to do things in the future, rest assured we'll do our best to share what we learn.
+**Please note:** As with anything that uses [context](https://facebook.github.io/react/docs/context.html), this library is experimental. It may cease working in some future version of React. For now, it's a practical workaround for the router. If we discover some better way to do things in the future, rest assured we'll do our best to share what we learn.
 
 ## Usage
 
