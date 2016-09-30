@@ -16,19 +16,22 @@ class Subscriber extends React.Component {
 
   componentWillMount() {
     const { channel } = this.props
-    const subscribe = this.context.broadcasts[channel]
 
-    invariant(
-      typeof subscribe === 'function',
-      '<Subscriber channel="%s"> must be rendered in the context of a <Broadcast channel="%s">',
-      channel,
-      channel
-    )
+    if (this.context.broadcasts) {
+      const subscribe = this.context.broadcasts[channel]
 
-    this.unsubscribe = subscribe(value => {
-      // This function will be called once immediately.
-      this.setState({ value })
-    })
+      invariant(
+        typeof subscribe === 'function',
+        '<Subscriber channel="%s"> must be rendered in the context of a <Broadcast channel="%s">',
+        channel,
+        channel
+      )
+
+      this.unsubscribe = subscribe(value => {
+        // This function will be called once immediately.
+        this.setState({ value })
+      })
+    }
   }
 
   componentWillUnmount() {
