@@ -1,7 +1,8 @@
 {
   "name": "react-broadcast",
   "version": "0.1.1",
-  "description": "Broadcast state changes to React components deep in the hierarchy",
+  "description": "A reliable way to broadcast state changes to React elements deep in the hierarchy",
+  "repository": "ReactTraining/react-broadcast",
   "authors": [
     "Michael Jackson",
     "Ryan Florence"
