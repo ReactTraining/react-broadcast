@@ -1,4 +1,7 @@
-# react-broadcast [![npm package][npm-badge]][npm]
+# react-broadcast [![Travis][build-badge]][build] [![npm package][npm-badge]][npm]
+
+[build-badge]: https://img.shields.io/travis/ReactTraining/react-broadcast/master.svg?style=flat-square
+[build]: https://travis-ci.org/ReactTraining/react-broadcast
 
 [npm-badge]: https://img.shields.io/npm/v/react-broadcast.svg?style=flat-square
 [npm]: https://www.npmjs.com/package/react-broadcast
