@@ -2,6 +2,7 @@
 .eslintrc
 .gitignore
 .npmignore
+.travis.yml
 modules
 node_modules
 scripts
