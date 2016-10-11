@@ -69,22 +69,25 @@ class App extends React.Component {
 }
 ```
 
-You may prefer to wrap these components into channel specific pairs to avoid typos and other problems with the indirection involved with the channel strings:
+You may prefer to wrap these components into channel-specific pairs to avoid typos and other problems with the indirection involved with the channel strings:
 
 ```js
 // Broadcasts.js
-const CHANNEL = 'currentUser'
+import { Broadcast, Subscriber } from 'react-broadcast'
+
+const CurrentUserChannel = 'currentUser'
 
 export const CurrentUserBroadcast = (props) =>
-  <Broadcast channel={CHANNEL} {...props} />
+  <Broadcast {...props} channel={CurrentUserChannel}/>
 
 export const CurrentUserSubscriber = (props) =>
-  <Subscriber channel={CHANNEL} {...props} />
+  <Subscriber {...props} channel={CurrentUserChannel}/>
 
 // App.js
-import { CurrentUserBroadcast, CurrentUserSubscriber } from 'Broadcasts'
+import { CurrentUserBroadcast, CurrentUserSubscriber } from './Broadcasts'
 
 <CurrentUserBroadcast value={user}/>
 <CurrentUserSubscriber>{user => ...}</CurrentUserSubscriber>
 ```
 
+That's it! Enjoy :)
