@@ -20,11 +20,7 @@ class Subscriber extends React.Component {
   }
 
   getBroadcast() {
-    return this.context.broadcasts[this.props.channel]
-  }
-
-  componentWillMount() {
-    const broadcast = this.getBroadcast()
+    const broadcast = this.context.broadcasts[this.props.channel]
 
     invariant(
       broadcast,
@@ -33,8 +29,14 @@ class Subscriber extends React.Component {
       this.props.channel
     )
 
+    return broadcast
+  }
+
+  componentWillMount() {
+    const broadcast = this.getBroadcast()
+
     this.setState({
-      value: broadcast.getValue()
+      value: broadcast.getState()
     })
   }
 

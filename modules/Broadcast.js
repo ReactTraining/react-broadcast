@@ -1,16 +1,16 @@
 import invariant from 'invariant'
 import React, { PropTypes } from 'react'
 
-const createBroadcast = (initialValue) => {
+const createBroadcast = (initialState) => {
   let listeners = []
-  let currentValue = initialValue
+  let currentState = initialState
 
-  const getValue = () =>
-    currentValue
+  const getState = () =>
+    currentState
 
-  const setValue = (value) => {
-    currentValue = value
-    listeners.forEach(listener => listener(currentValue))
+  const setState = (state) => {
+    currentState = state
+    listeners.forEach(listener => listener(currentState))
   }
 
   const subscribe = (listener) => {
@@ -21,8 +21,8 @@ const createBroadcast = (initialValue) => {
   }
 
   return {
-    getValue,
-    setValue,
+    getState,
+    setState,
     subscribe
   }
 }
@@ -53,19 +53,12 @@ class Broadcast extends React.Component {
 
   broadcast = createBroadcast(this.props.value)
 
-  getBroadcastsContext() {
-    const { channel } = this.props
-    const { broadcasts } = this.context
-
-    return {
-      ...broadcasts,
-      [channel]: this.broadcast
-    }
-  }
-
   getChildContext() {
     return {
-      broadcasts: this.getBroadcastsContext()
+      broadcasts: {
+        ...this.context.broadcasts,
+        [this.props.channel]: this.broadcast
+      }
     }
   }
 
@@ -76,7 +69,7 @@ class Broadcast extends React.Component {
     )
 
     if (this.props.value !== nextProps.value)
-      this.broadcast.setValue(nextProps.value)
+      this.broadcast.setState(nextProps.value)
   }
 
   render() {
