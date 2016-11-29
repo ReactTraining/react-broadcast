@@ -5,20 +5,25 @@ const createBroadcast = (initialValue) => {
   let listeners = []
   let currentValue = initialValue
 
+  const getValue = () =>
+    currentValue
+
+  const setValue = (value) => {
+    currentValue = value
+    listeners.forEach(listener => listener(currentValue))
+  }
+
+  const subscribe = (listener) => {
+    listeners.push(listener)
+
+    return () =>
+      listeners = listeners.filter(item => item !== listener)
+  }
+
   return {
-    publish(value) {
-      currentValue = value
-      listeners.forEach(listener => listener(currentValue))
-    },
-    subscribe(listener) {
-      listeners.push(listener)
-
-      // Publish to this subscriber once immediately.
-      listener(currentValue)
-
-      return () =>
-        listeners = listeners.filter(item => item !== listener)
-    }
+    getValue,
+    setValue,
+    subscribe
   }
 }
 
@@ -48,7 +53,7 @@ class Broadcast extends React.Component {
 
     return {
       ...broadcasts,
-      [channel]: this.broadcast.subscribe
+      [channel]: this.broadcast
     }
   }
 
@@ -65,7 +70,7 @@ class Broadcast extends React.Component {
     )
 
     if (this.props.value !== nextProps.value)
-      this.broadcast.publish(nextProps.value)
+      this.broadcast.setValue(nextProps.value)
   }
 
   render() {
