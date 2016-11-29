@@ -6,6 +6,11 @@ import React, { PropTypes } from 'react'
  * and passes it to its children function.
  */
 class Subscriber extends React.Component {
+  static propTypes = {
+    channel: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired
+  }
+
   static contextTypes = {
     broadcasts: PropTypes.object
   }
@@ -47,13 +52,6 @@ class Subscriber extends React.Component {
 
   render() {
     return this.props.children(this.state.value)
-  }
-}
-
-if (__DEV__) {
-  Subscriber.propTypes = {
-    channel: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired
   }
 }
 

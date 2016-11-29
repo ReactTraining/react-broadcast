@@ -37,6 +37,12 @@ const createBroadcast = (initialValue) => {
  * <Subscriber> component for a reference implementation.
  */
 class Broadcast extends React.Component {
+  static propTypes = {
+    channel: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    value: PropTypes.any
+  }
+
   static contextTypes = {
     broadcasts: PropTypes.object
   }
@@ -75,14 +81,6 @@ class Broadcast extends React.Component {
 
   render() {
     return React.Children.only(this.props.children)
-  }
-}
-
-if (__DEV__) {
-  Broadcast.propTypes = {
-    channel: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    value: PropTypes.any
   }
 }
 
