@@ -7,7 +7,7 @@ import React, { PropTypes } from 'react'
  */
 class Subscriber extends React.Component {
   static contextTypes = {
-    broadcasts: React.PropTypes.object
+    broadcasts: PropTypes.object
   }
 
   state = {
