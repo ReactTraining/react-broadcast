@@ -47,12 +47,12 @@
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.4",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.7.0",
+    "karma-webpack": "^2.0.1",
     "mocha": "^3.0.2",
     "pretty-bytes": "^4.0.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "readline-sync": "^1.4.4",
-    "webpack": "1.13.3"
+    "webpack": "1.14.0"
   }
 }
