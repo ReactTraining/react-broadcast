@@ -19,7 +19,8 @@
     "lint": "eslint modules"
   },
   "dependencies": {
-    "invariant": "^2.2.1"
+    "invariant": "^2.2.1",
+    "prop-types": "^15.5.6"
   },
   "peerDependencies": {
     "react": "15.x"
