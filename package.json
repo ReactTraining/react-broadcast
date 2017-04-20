@@ -54,6 +54,6 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "readline-sync": "^1.4.4",
-    "webpack": "1.14.0"
+    "webpack": "2.2.1"
   }
 }
