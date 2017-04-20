@@ -19,6 +19,7 @@
     "lint": "eslint modules"
   },
   "dependencies": {
+    "brcast": "^2.0.0",
     "invariant": "^2.2.1"
   },
   "peerDependencies": {
