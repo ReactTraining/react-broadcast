@@ -1,31 +1,6 @@
 import invariant from 'invariant'
 import React, { PropTypes } from 'react'
-
-const createBroadcast = (initialState) => {
-  let listeners = []
-  let currentState = initialState
-
-  const getState = () =>
-    currentState
-
-  const setState = (state) => {
-    currentState = state
-    listeners.forEach(listener => listener(currentState))
-  }
-
-  const subscribe = (listener) => {
-    listeners.push(listener)
-
-    return () =>
-      listeners = listeners.filter(item => item !== listener)
-  }
-
-  return {
-    getState,
-    setState,
-    subscribe
-  }
-}
+import brcast from 'brcast'
 
 /**
  * A <Broadcast> provides a generic way for descendants to "subscribe"
@@ -51,7 +26,7 @@ class Broadcast extends React.Component {
     broadcasts: PropTypes.object.isRequired
   }
 
-  broadcast = createBroadcast(this.props.value)
+  broadcast = brcast(this.props.value)
 
   getChildContext() {
     return {
