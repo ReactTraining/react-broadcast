@@ -15,8 +15,8 @@
     "build-min": "webpack -p modules/index.js umd/react-broadcast.min.js",
     "prepublish": "node ./scripts/build.js",
     "release": "node ./scripts/release.js",
-    "test": "npm run lint && karma start",
-    "lint": "eslint modules"
+    "lint": "eslint modules",
+    "test": "karma start --single-run"
   },
   "dependencies": {
     "invariant": "^2.2.1",
