@@ -6,8 +6,6 @@
 [npm-badge]: https://img.shields.io/npm/v/react-broadcast.svg?style=flat-square
 [npm]: https://www.npmjs.com/package/react-broadcast
 
-## This library is considered experimental and is probably not going to be developed further. Subscriptions take you outside of the React model, and make it harder for you to predict when elements will re-render
-
 [`react-broadcast`](https://www.npmjs.com/package/react-broadcast) provides a reliable way for React components to propagate state changes to their descendants deep in the component hierarchy, bypassing intermediaries who `return false` from [`shouldComponentUpdate`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate).
 
 It was originally built to solve issues that arose from using [`react-router`](https://www.npmjs.com/package/react-router) together with [`react-redux`](https://www.npmjs.com/package/react-redux). The router needed a safe way to communicate state changes to `<Link>`s deep in the component hierarchy, but `react-redux` relies on `shouldComponentUpdate` for performance. `react-broadcast` allows the router to work seamlessly with Redux and any other component that uses `shouldComponentUpdate`.
