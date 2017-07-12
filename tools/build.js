@@ -1,4 +1,4 @@
-const readFileSync = require('fs').readFileSync
+const fs = require('fs')
 const execSync = require('child_process').execSync
 const inInstall = require('in-publish').inInstall
 const prettyBytes = require('pretty-bytes')
@@ -7,19 +7,38 @@ const gzipSize = require('gzip-size')
 if (inInstall())
   process.exit(0)
 
-const exec = (command, env) =>
-  execSync(command, { stdio: 'inherit', env })
+const exec = (command, extraEnv) =>
+  execSync(command, {
+    stdio: 'inherit',
+    env: Object.assign({}, process.env, extraEnv)
+  })
 
-const webpackEnv = Object.assign({}, process.env, {
+console.log('Building CommonJS modules ...')
+
+exec('babel modules -d . --ignore __tests__', {
+  BABEL_ENV: 'cjs'
+})
+
+console.log('\nBuilding ES modules ...')
+
+exec('babel modules -d es --ignore __tests__', {
+  BABEL_ENV: 'es'
+})
+
+console.log('\nBuilding react-media.js ...')
+
+exec('webpack modules/index.js umd/react-media.js', {
   NODE_ENV: 'production'
 })
 
-exec('npm run build-cjs')
-exec('npm run build-umd', webpackEnv)
-exec('npm run build-min', webpackEnv)
+console.log('\nBuilding react-media.min.js ...')
 
-console.log(
-  '\ngzipped, the UMD build is ' + prettyBytes(
-    gzipSize.sync(readFileSync('umd/react-broadcast.min.js'))
-  )
+exec('webpack -p modules/index.js umd/react-media.min.js', {
+  NODE_ENV: 'production'
+})
+
+const size = gzipSize.sync(
+  fs.readFileSync('umd/react-media.min.js')
 )
+
+console.log('\ngzipped, the UMD build is %s', prettyBytes(size))
