@@ -5,6 +5,7 @@ import { render } from 'react-dom'
 import expect from 'expect'
 import { EventEmitter } from 'events'
 import { Subscriber, Broadcast } from '../index'
+import createSubscriber from '../createSubscriber'
 
 it('works', (done) => {
 
@@ -21,6 +22,13 @@ it('works', (done) => {
     <Broadcast channel="cheese" value={cheese} children={children}/>
   const CheeseSubscriber = ({ children }) =>
     <Subscriber channel="cheese">{(value) => children(value)}</Subscriber>
+
+  const ConnectCheese = ({ cheese }) => {
+    actualCheeseConnect = cheese
+     return (<div></div>)
+   }
+  const ConnectCheeseSubscriber = createSubscriber("cheese")(ConnectCheese)
+
 
   class ComponentWithStateForDescendants extends React.Component {
     constructor() {
@@ -48,14 +56,17 @@ it('works', (done) => {
   }
 
   let actualCheese = null
+  let actualCheeseConnect = null
 
   steps.push(
     () => {
       expect(actualCheese).toBe('cheddar')
+      expect(actualCheeseConnect).toBe('cheddar')
       emitter.emit('CHEESE', 'gouda')
     },
     () => {
       expect(actualCheese).toBe('gouda')
+      expect(actualCheeseConnect).toBe('gouda')
       done()
     }
   )
@@ -64,13 +75,16 @@ it('works', (done) => {
   //    gets a new value in its prop
   render((
     <ComponentWithStateForDescendants>
-      <CheeseSubscriber>
-        {(cheese) => {
-          actualCheese = cheese
-          return null
-        }}
-      </CheeseSubscriber>
+      <div>
+        <CheeseSubscriber>
+          {(cheese) => {
+            actualCheese = cheese
+            return null
+          }}
+        </CheeseSubscriber>
+        <ConnectCheeseSubscriber>
+        </ConnectCheeseSubscriber>
+      </div>
     </ComponentWithStateForDescendants>
   ), div)
 })
-
