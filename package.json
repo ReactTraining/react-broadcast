@@ -55,5 +55,14 @@
     "react-dom": "^15.3.0",
     "readline-sync": "^1.4.4",
     "webpack": "1.14.0"
-  }
+  },
+  "keywords": [
+    "react",
+    "context",
+    "broadcast",
+    "subscribe",
+    "subscriber",
+    "subscription",
+    "subscriptions"
+  ]
 }
