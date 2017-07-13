@@ -1,13 +1,10 @@
-/*eslint-env mocha*/
 /*eslint react/prop-types: 0*/
 import React from 'react'
 import { render } from 'react-dom'
-import expect from 'expect'
 import { EventEmitter } from 'events'
-import { Subscriber, Broadcast } from '../index'
+import { Broadcast, Subscriber } from '../index'
 
 it('works', (done) => {
-
   const steps = []
   const execNextStep = () => steps.shift()()
   const div = document.createElement('div')
@@ -16,11 +13,12 @@ it('works', (done) => {
   const emitter = new EventEmitter()
 
   // A component has some state it wants to make available to descendants
-  // 1. We create our Emitter and Subscriber components
-  const CheeseEmitter = ({ cheese, children }) =>
+  // 1. We create our Broadcast and Subscriber components
+  const CheeseBroadcast = ({ cheese, children }) =>
     <Broadcast channel="cheese" value={cheese} children={children}/>
+
   const CheeseSubscriber = ({ children }) =>
-    <Subscriber channel="cheese">{(value) => children(value)}</Subscriber>
+    <Subscriber channel="cheese" children={children}/>
 
   class ComponentWithStateForDescendants extends React.Component {
     constructor() {
@@ -36,13 +34,13 @@ it('works', (done) => {
     componentDidUpdate = execNextStep
 
     render() {
-      // 2. render the Emitter in the component w/ state and pass
+      // 2. render the Broadcast in the component w/ state and pass
       //    it the value we want accessible through context as a prop
-      //    by the same name as when the Emitter was created
+      //    by the same name as when the Broadcast was created
       return (
-        <CheeseEmitter cheese={this.state.cheese}>
+        <CheeseBroadcast cheese={this.state.cheese}>
           {this.props.children}
-        </CheeseEmitter>
+        </CheeseBroadcast>
       )
     }
   }
@@ -60,7 +58,7 @@ it('works', (done) => {
     }
   )
 
-  // 3. Render a <Subscriber> that calls back when the Emitter
+  // 3. Render a <Subscriber> that calls back when the Broadcast
   //    gets a new value in its prop
   render((
     <ComponentWithStateForDescendants>
@@ -73,4 +71,3 @@ it('works', (done) => {
     </ComponentWithStateForDescendants>
   ), div)
 })
-
