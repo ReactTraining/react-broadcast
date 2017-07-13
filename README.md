@@ -90,4 +90,6 @@ import { CurrentUserBroadcast, CurrentUserSubscriber } from './Broadcasts'
 <CurrentUserSubscriber>{user => ...}</CurrentUserSubscriber>
 ```
 
-That's it! Enjoy :)
+## About
+
+Development of react-broadcast is done by [React Training](https://reacttraining.com). If you're interested in learning more about what React can do for your company, please [get in touch](mailto:hello@reacttraining.com)!
