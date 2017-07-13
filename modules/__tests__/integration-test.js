@@ -1,6 +1,6 @@
 /*eslint react/prop-types: 0*/
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { EventEmitter } from 'events'
 import { Broadcast, Subscriber } from '../index'
 
@@ -60,7 +60,7 @@ it('works', (done) => {
 
   // 3. Render a <Subscriber> that calls back when the Broadcast
   //    gets a new value in its prop
-  render((
+  ReactDOM.render((
     <ComponentWithStateForDescendants>
       <CheeseSubscriber>
         {(cheese) => {
