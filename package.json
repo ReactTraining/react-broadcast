@@ -1,6 +1,8 @@
 {
   "name": "react-broadcast",
   "version": "0.3.1",
+  "main": "index.js",
+  "module": "es/index.js",
   "description": "A reliable way to broadcast state changes to React elements deep in the hierarchy",
   "repository": "ReactTraining/react-broadcast",
   "license": "MIT",
