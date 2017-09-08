@@ -6,7 +6,7 @@ module.exports = {
   presets: [
     [ buildPreset, {
       loose: true,
-      modules: BABEL_ENV === 'es' ? false : 'commonjs'
+      modules: BABEL_ENV === 'esm' ? false : 'commonjs'
     } ]
   ]
 }

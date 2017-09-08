@@ -17,8 +17,8 @@ exec('babel modules -d . --ignore __tests__', {
 
 console.log('\nBuilding ES modules ...')
 
-exec('babel modules -d es --ignore __tests__', {
-  BABEL_ENV: 'es'
+exec('babel modules -d esm --ignore __tests__', {
+  BABEL_ENV: 'esm'
 })
 
 console.log('\nBuilding react-broadcast.js ...')
