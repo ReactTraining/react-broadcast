@@ -8,7 +8,7 @@
   "files": [
     "Broadcast.js",
     "Subscriber.js",
-    "es",
+    "esm",
     "index.js",
     "umd"
   ],
