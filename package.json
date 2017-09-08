@@ -1,6 +1,6 @@
 {
   "name": "react-broadcast",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A reliable way to broadcast state changes to React elements deep in the hierarchy",
   "repository": "ReactTraining/react-broadcast",
   "license": "MIT",
