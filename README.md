@@ -37,12 +37,7 @@ class UpdateBlocker extends React.Component {
   }
 
   render() {
-    // We can get around the blocker using a <Subscriber>
-    return (
-      <Subscriber channel="currentUser">
-        {currentUser => <p>The current user is {currentUser.name}</p>}
-      </Subscriber>
-    )
+    return this.props.children
   }
 }
 
@@ -62,7 +57,11 @@ class App extends React.Component {
   render() {
     return (
       <Broadcast channel="currentUser" value={this.state.currentUser}>
-        <UpdateBlocker/>
+        <UpdateBlocker>
+          <Subscriber channel="currentUser">
+            {currentUser => <p>The current user is {currentUser.name}</p>}
+          </Subscriber>
+        </UpdateBlocker>
       </Broadcast>
     )
   }
@@ -90,6 +89,8 @@ import { CurrentUserBroadcast, CurrentUserSubscriber } from './Broadcasts'
 <CurrentUserSubscriber>{user => ...}</CurrentUserSubscriber>
 ```
 
+Enjoy!
+
 ## About
 
-Development of react-broadcast is done by [React Training](https://reacttraining.com). If you're interested in learning more about what React can do for your company, please [get in touch](mailto:hello@reacttraining.com)!
+react-broadcast is developed and maintained by [React Training](https://reacttraining.com). If you're interested in learning more about what React can do for your company, please [get in touch](mailto:hello@reacttraining.com)!
