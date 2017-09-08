@@ -5,8 +5,8 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 
 const config = {
-  entry: 'modules/index.js',
-  moduleName: 'ReactBroadcast',
+  input: 'modules/index.js',
+  name: 'ReactBroadcast',
   globals: {
     react: 'React'
   },
