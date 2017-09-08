@@ -1,12 +1,26 @@
-const buildPreset = require('babel-preset-es2015').buildPreset
+const building = process.env.BABEL_ENV != undefined && process.env.BABEL_ENV !== 'cjs'
 
-const BABEL_ENV = process.env.BABEL_ENV
+const plugins = []
+
+if (process.env.BABEL_ENV === 'umd') {
+  plugins.push('external-helpers')
+}
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(
+    'dev-expression',
+    'transform-react-remove-prop-types'
+  )
+}
 
 module.exports = {
   presets: [
-    [ buildPreset, {
+    [ 'es2015', {
       loose: true,
-      modules: BABEL_ENV === 'esm' ? false : 'commonjs'
-    } ]
-  ]
+      modules: building ? false : 'commonjs'
+    } ],
+    'stage-1',
+    'react'
+  ],
+  plugins: plugins
 }

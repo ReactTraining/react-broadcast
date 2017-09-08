@@ -23,13 +23,15 @@ exec('babel modules -d esm --ignore __tests__', {
 
 console.log('\nBuilding react-broadcast.js ...')
 
-exec('webpack modules/index.js umd/react-broadcast.js', {
+exec('rollup -c -f umd -o umd/react-broadcast.js', {
+  BABEL_ENV: 'umd',
   NODE_ENV: 'development'
 })
 
 console.log('\nBuilding react-broadcast.min.js ...')
 
-exec('webpack -p modules/index.js umd/react-broadcast.min.js', {
+exec('rollup -c -f umd -o umd/react-broadcast.min.js', {
+  BABEL_ENV: 'umd',
   NODE_ENV: 'production'
 })
 
