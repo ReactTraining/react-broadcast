@@ -12,6 +12,8 @@
     "index.js",
     "umd"
   ],
+  "main": "index.js",
+  "module": "esm/index.js",
   "scripts": {
     "build": "node ./tools/build.js",
     "clean": "git clean -fdX .",
