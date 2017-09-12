@@ -1,7 +1,7 @@
 {
   "name": "react-broadcast",
   "version": "0.5.2",
-  "description": "A reliable way to broadcast state changes to React elements deep in the hierarchy",
+  "description": "Reliably communicate state changes to deeply nested React elements",
   "repository": "ReactTraining/react-broadcast",
   "license": "MIT",
   "author": "Michael Jackson",
