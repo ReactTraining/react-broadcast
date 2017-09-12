@@ -12,6 +12,31 @@ It was originally built to solve issues that arose from using [`react-router`](h
 
 **Please note:** As with anything that uses [context](https://facebook.github.io/react/docs/context.html), this library is experimental. It may cease working in some future version of React. For now, it's a practical workaround for the router. If we discover some better way to do things in the future, rest assured we'll do our best to share what we learn.
 
+## Installation
+
+Using [yarn](https://yarnpkg.com/):
+
+    $ yarn add react-broadcast
+
+Then, use as you would anything else:
+
+```js
+// using ES6 modules
+import { Broadcast, Subscriber } from 'react-broadcast'
+
+// using CommonJS modules
+var Broadcast = require('react-broadcast').Broadcast
+var Subscriber = require('react-broadcast').Subscriber
+```
+
+The UMD build is also available on [unpkg](https://unpkg.com):
+
+```html
+<script src="https://unpkg.com/react-broadcast/umd/react-broadcast.min.js"></script>
+```
+
+You can find the library on `window.ReactBroadcast`.
+
 ## Usage
 
 The following is a totally contrived example, but illustrates the basic functionality we're after:

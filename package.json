@@ -3,8 +3,8 @@
   "version": "0.5.2",
   "description": "Reliably communicate state changes to deeply nested React elements",
   "repository": "ReactTraining/react-broadcast",
-  "license": "MIT",
   "author": "Michael Jackson",
+  "license": "MIT",
   "files": [
     "cjs",
     "esm",
