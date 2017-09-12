@@ -1,18 +1,15 @@
-const resolvePath = require('path').resolve
-const readFileSync = require('fs').readFileSync
+const fs = require('fs')
+const path = require('path')
 const execSync = require('child_process').execSync
 const prompt = require('readline-sync').question
+
+process.chdir(path.resolve(__dirname, '..'))
 
 const exec = (command) =>
   execSync(command, { stdio: 'inherit' })
 
 const getPackageVersion = () =>
-  JSON.parse(readFileSync(resolvePath(__dirname, '../package.json'))).version
-
-if (process.cwd() !== resolvePath(__dirname, '..')) {
-  console.error('The release script must be run from the repo root')
-  process.exit(1)
-}
+  JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'))).version
 
 // Get the next version, which may be specified as a semver
 // version number or anything `npm version` recognizes. This
