@@ -22,7 +22,7 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "react": ">=15"
+    "react": ">=15 || ^16.0.0-rc"
   },
   "dependencies": {
     "invariant": "^2.2.1",
