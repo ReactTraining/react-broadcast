@@ -46,7 +46,6 @@ const getPlugins = (env) => {
 
 const config = {
   input: 'modules/index.js',
-  name: 'ReactBroadcast',
   globals: {
     react: 'React'
   },
@@ -54,6 +53,10 @@ const config = {
     'react'
   ],
   plugins: getPlugins(process.env.BUILD_ENV)
+}
+
+if (process.env.BUILD_NAME) {
+  config.name = process.env.BUILD_NAME
 }
 
 module.exports = config
