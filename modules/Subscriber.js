@@ -1,6 +1,8 @@
-import invariant from 'invariant'
+import warning from 'warning'
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import createBroadcast from './create-broadcast';
 
 /**
  * A <Subscriber> pulls the value for a channel off of context.broadcasts
@@ -21,16 +23,20 @@ class Subscriber extends React.Component {
   }
 
   getBroadcast() {
-    const broadcast = this.context.broadcasts[this.props.channel]
+    const broadcast = (
+      this.context &&
+      this.context.broadcasts &&
+      this.context.broadcasts[this.props.channel]
+    )
 
-    invariant(
+    warning(
       broadcast,
-      '<Subscriber channel="%s"> must be rendered in the context of a <Broadcast channel="%s">',
+      '<Subscriber channel="%s"> should be rendered in the context of a <Broadcast channel="%s">',
       this.props.channel,
       this.props.channel
     )
 
-    return broadcast
+    return broadcast || createBroadcast()
   }
 
   componentWillMount() {
