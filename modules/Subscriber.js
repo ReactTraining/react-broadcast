@@ -21,7 +21,8 @@ class Subscriber extends React.Component {
   }
 
   getBroadcast() {
-    const broadcast = this.context.broadcasts[this.props.channel]
+    const broadcasts = this.context.broadcasts || {}
+    const broadcast = broadcasts[this.props.channel]
 
     invariant(
       broadcast,
