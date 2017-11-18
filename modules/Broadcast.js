@@ -40,6 +40,7 @@ const createBroadcast = (initialState) => {
 class Broadcast extends React.Component {
   static propTypes = {
     channel: PropTypes.string.isRequired,
+    compareFunction: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     value: PropTypes.any
   }
@@ -69,13 +70,17 @@ class Broadcast extends React.Component {
       'You cannot change <Broadcast channel>'
     )
 
-    if (this.props.value !== nextProps.value)
+    if (this.props.compareFunction(this.props.value, nextProps.value))
       this.broadcast.setState(nextProps.value)
   }
 
   render() {
     return React.Children.only(this.props.children)
   }
+}
+
+Broadcast.defaultProps = {
+  compareFunction: (value, nextValue) => value !== nextValue
 }
 
 export default Broadcast
