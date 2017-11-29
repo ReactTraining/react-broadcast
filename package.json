@@ -1,6 +1,6 @@
 {
   "name": "react-broadcast",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Reliably communicate state changes to deeply nested React elements",
   "repository": "ReactTraining/react-broadcast",
   "author": "Michael Jackson",
