@@ -39,7 +39,12 @@ class Broadcast extends React.Component {
   static propTypes = {
     channel: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+    compareValues: PropTypes.func,
     value: PropTypes.any
+  }
+
+  static defaultProps = {
+    compareValues: (prevValue, nextValue) => prevValue === nextValue
   }
 
   static contextTypes = {
@@ -63,7 +68,10 @@ class Broadcast extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     invariant(this.props.channel === nextProps.channel, "You cannot change <Broadcast channel>")
-    if (this.props.value !== nextProps.value) this.broadcast.setState(nextProps.value)
+
+    if (!this.props.compareValues(this.props.value, nextProps.value)) {
+      this.broadcast.setState(nextProps.value)
+    }
   }
 
   render() {
