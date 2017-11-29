@@ -1,35 +1,27 @@
-const resolve = require('rollup-plugin-node-resolve')
-const replace = require('rollup-plugin-replace')
-const babel = require('rollup-plugin-babel')
-const commonjs = require('rollup-plugin-commonjs')
-const uglify = require('rollup-plugin-uglify')
+const babel = require("rollup-plugin-babel")
+const commonjs = require("rollup-plugin-commonjs")
+const replace = require("rollup-plugin-replace")
+const resolve = require("rollup-plugin-node-resolve")
+const uglify = require("rollup-plugin-uglify")
 
-const getPlugins = (env) => {
-  const plugins = [
-    resolve()
-  ]
+const getPlugins = env => {
+  const plugins = [resolve()]
 
   if (env) {
     plugins.push(
       replace({
-        'process.env.NODE_ENV': JSON.stringify(env)
+        "process.env.NODE_ENV": JSON.stringify(env)
       })
     )
   }
 
   plugins.push(
     babel({
-      exclude: 'node_modules/**',
+      exclude: "node_modules/**",
       babelrc: false,
-      presets: [
-        [ 'es2015', { loose: true, modules: false } ],
-        'stage-1',
-        'react'
-      ],
-      plugins: [ 'external-helpers' ].concat(
-        env === 'production'
-          ? [ 'dev-expression', 'transform-react-remove-prop-types' ]
-          : []
+      presets: [["es2015", { loose: true, modules: false }], "stage-1", "react"],
+      plugins: ["external-helpers"].concat(
+        env === "production" ? ["dev-expression", "transform-react-remove-prop-types"] : []
       )
     }),
     commonjs({
@@ -37,7 +29,7 @@ const getPlugins = (env) => {
     })
   )
 
-  if (env === 'production') {
+  if (env === "production") {
     plugins.push(uglify())
   }
 
@@ -45,13 +37,11 @@ const getPlugins = (env) => {
 }
 
 const config = {
-  input: 'modules/index.js',
+  input: "modules/index.js",
   globals: {
-    react: 'React'
+    react: "React"
   },
-  external: [
-    'react'
-  ],
+  external: ["react"],
   plugins: getPlugins(process.env.BUILD_ENV)
 }
 

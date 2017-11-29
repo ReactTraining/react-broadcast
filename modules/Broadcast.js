@@ -1,24 +1,22 @@
-import invariant from 'invariant'
-import React from 'react'
-import PropTypes from 'prop-types'
+import invariant from "invariant"
+import React from "react"
+import PropTypes from "prop-types"
 
-const createBroadcast = (initialState) => {
+const createBroadcast = initialState => {
   let listeners = []
   let currentState = initialState
 
-  const getState = () =>
-    currentState
+  const getState = () => currentState
 
-  const setState = (state) => {
+  const setState = state => {
     currentState = state
     listeners.forEach(listener => listener(currentState))
   }
 
-  const subscribe = (listener) => {
+  const subscribe = listener => {
     listeners.push(listener)
 
-    return () =>
-      listeners = listeners.filter(item => item !== listener)
+    return () => (listeners = listeners.filter(item => item !== listener))
   }
 
   return {
@@ -64,13 +62,9 @@ class Broadcast extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    invariant(
-      this.props.channel === nextProps.channel,
-      'You cannot change <Broadcast channel>'
-    )
+    invariant(this.props.channel === nextProps.channel, "You cannot change <Broadcast channel>")
 
-    if (this.props.value !== nextProps.value)
-      this.broadcast.setState(nextProps.value)
+    if (this.props.value !== nextProps.value) this.broadcast.setState(nextProps.value)
   }
 
   render() {

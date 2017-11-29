@@ -1,6 +1,6 @@
-import invariant from 'invariant'
-import React from 'react'
-import PropTypes from 'prop-types'
+import invariant from "invariant"
+import React from "react"
+import PropTypes from "prop-types"
 
 /**
  * A <Subscriber> pulls the value for a channel off of context.broadcasts
