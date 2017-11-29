@@ -1,4 +1,3 @@
-/*eslint react/prop-types: 0*/
 import React from "react"
 import ReactDOM from "react-dom"
 import { EventEmitter } from "events"
