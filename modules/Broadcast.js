@@ -1,8 +1,8 @@
-import invariant from "invariant"
 import React from "react"
 import PropTypes from "prop-types"
+import invariant from "invariant"
 
-const createBroadcast = initialState => {
+function createBroadcast(initialState) {
   let listeners = []
   let currentState = initialState
 
@@ -63,7 +63,6 @@ class Broadcast extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     invariant(this.props.channel === nextProps.channel, "You cannot change <Broadcast channel>")
-
     if (this.props.value !== nextProps.value) this.broadcast.setState(nextProps.value)
   }
 

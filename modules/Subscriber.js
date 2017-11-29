@@ -1,6 +1,6 @@
-import invariant from "invariant"
 import React from "react"
 import PropTypes from "prop-types"
+import invariant from "invariant"
 
 /**
  * A <Subscriber> pulls the value for a channel off of context.broadcasts
@@ -34,17 +34,13 @@ class Subscriber extends React.Component {
   }
 
   componentWillMount() {
-    const broadcast = this.getBroadcast()
-
     this.setState({
-      value: broadcast.getState()
+      value: this.getBroadcast().getState()
     })
   }
 
   componentDidMount() {
-    const broadcast = this.getBroadcast()
-
-    this.unsubscribe = broadcast.subscribe(value => {
+    this.unsubscribe = this.getBroadcast().subscribe(value => {
       this.setState({ value })
     })
   }
