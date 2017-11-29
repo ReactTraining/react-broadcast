@@ -100,6 +100,10 @@ class App extends React.Component {
 }
 ```
 
+By default `<Broadcast value>` values are compared using the `===` (strict equality) operator. To
+change this behavior, use `<Broadcast compareValues>` which is a function that takes the `prevValue`
+and `nextValue` and compares them. If `compareValues` returns `true`, no re-render will occur.
+
 You may prefer to wrap these components into channel-specific pairs to avoid typos and other
 problems with the indirection involved with the channel strings:
 
