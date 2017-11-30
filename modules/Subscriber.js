@@ -9,7 +9,7 @@ import invariant from "invariant"
 class Subscriber extends React.Component {
   static propTypes = {
     channel: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func,
   }
 
   static contextTypes = {
@@ -51,7 +51,8 @@ class Subscriber extends React.Component {
   }
 
   render() {
-    return this.props.children(this.state.value)
+    const { children } = this.props
+    return children ? children(this.state.value) : null
   }
 }
 
