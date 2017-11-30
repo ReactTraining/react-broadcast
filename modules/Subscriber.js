@@ -10,6 +10,11 @@ class Subscriber extends React.Component {
   static propTypes = {
     channel: PropTypes.string.isRequired,
     children: PropTypes.func,
+    quiet: PropTypes.bool
+  }
+
+  static defaultProps = {
+    quiet: false
   }
 
   static contextTypes = {
@@ -17,7 +22,7 @@ class Subscriber extends React.Component {
   }
 
   state = {
-    value: null
+    value: undefined
   }
 
   getBroadcast() {
@@ -25,7 +30,7 @@ class Subscriber extends React.Component {
     const broadcast = broadcasts[this.props.channel]
 
     invariant(
-      broadcast,
+      this.props.quiet || broadcast,
       '<Subscriber channel="%s"> must be rendered in the context of a <Broadcast channel="%s">',
       this.props.channel,
       this.props.channel
@@ -35,19 +40,27 @@ class Subscriber extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      value: this.getBroadcast().getState()
-    })
+    const broadcast = this.getBroadcast()
+
+    if (broadcast) {
+      this.setState({
+        value: broadcast.getState()
+      })
+    }
   }
 
   componentDidMount() {
-    this.unsubscribe = this.getBroadcast().subscribe(value => {
-      this.setState({ value })
-    })
+    const broadcast = this.getBroadcast()
+
+    if (broadcast) {
+      this.unsubscribe = broadcast.subscribe(value => {
+        this.setState({ value })
+      })
+    }
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    if (this.unsubscribe) this.unsubscribe()
   }
 
   render() {
