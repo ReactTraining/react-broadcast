@@ -67,14 +67,3 @@ it("works", done => {
     div
   )
 })
-
-it("throws an invariant violation when a subscriber is rendered outside of a broadcast", () => {
-  const renderSubscriberOnly = () => {
-    ReactDOM.render(
-      <Subscriber channel="test">{() => null}</Subscriber>,
-      document.createElement("div")
-    )
-  }
-
-  expect(renderSubscriberOnly).toThrow(/<Subscriber channel="test">.*<Broadcast channel="test".*/)
-})
