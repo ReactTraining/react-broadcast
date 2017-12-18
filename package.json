@@ -1,11 +1,15 @@
 {
   "name": "react-broadcast",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Reliably communicate state changes to deeply nested React elements",
   "repository": "ReactTraining/react-broadcast",
   "author": "Michael Jackson",
   "license": "MIT",
-  "files": ["cjs", "esm", "umd"],
+  "files": [
+    "cjs",
+    "esm",
+    "umd"
+  ],
   "main": "cjs/react-broadcast.js",
   "module": "esm/react-broadcast.js",
   "unpkg": "umd/react-broadcast.js",
@@ -53,7 +57,9 @@
     "rollup-plugin-uglify": "^2.0.1"
   },
   "jest": {
-    "setupFiles": ["raf/polyfill"]
+    "setupFiles": [
+      "raf/polyfill"
+    ]
   },
   "keywords": [
     "react",
