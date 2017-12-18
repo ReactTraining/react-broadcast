@@ -32,11 +32,10 @@ Then, use as you would anything else:
 
 ```js
 // using ES6 modules
-import { Broadcast, Subscriber } from "react-broadcast"
+import { createBroadcast } from "react-broadcast"
 
 // using CommonJS modules
-var Broadcast = require("react-broadcast").Broadcast
-var Subscriber = require("react-broadcast").Subscriber
+var createBroadcast = require("react-broadcast").createBroadcast
 ```
 
 The UMD build is also available on [unpkg](https://unpkg.com):
@@ -49,13 +48,15 @@ You can find the library on `window.ReactBroadcast`.
 
 ## Usage
 
-The following is a totally contrived example, but illustrates the basic functionality we're after:
+The following is a contrived example, but illustrates the basic functionality we're after:
 
 ```js
 import React from "react"
-import { Broadcast, Subscriber } from "react-broadcast"
+import { createBroadcast } from "react-broadcast"
 
 const users = [{ name: "Michael Jackson" }, { name: "Ryan Florence" }]
+
+const { Broadcast, Subscriber } = createBroadcast(users[0])
 
 class UpdateBlocker extends React.Component {
   shouldComponentUpdate() {
@@ -75,7 +76,7 @@ class UpdateBlocker extends React.Component {
 
 class App extends React.Component {
   state = {
-    currentUser: users[0]
+    currentUser: Broadcast.initialValue
   }
 
   componentDidMount() {
@@ -88,11 +89,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <Broadcast channel="currentUser" value={this.state.currentUser}>
+      <Broadcast value={this.state.currentUser}>
         <UpdateBlocker>
-          <Subscriber channel="currentUser">
-            {currentUser => <p>The current user is {currentUser.name}</p>}
-          </Subscriber>
+          <Subscriber>{currentUser => <p>The current user is {currentUser.name}</p>}</Subscriber>
         </UpdateBlocker>
       </Broadcast>
     )
@@ -100,36 +99,10 @@ class App extends React.Component {
 }
 ```
 
-By default `<Broadcast value>` values are compared using the `===` (strict equality) operator. To
-change this behavior, use `<Broadcast compareValues>` which is a function that takes the `prevValue`
-and `nextValue` and compares them. If `compareValues` returns `true`, no re-render will occur.
-
-You may prefer to wrap these components into channel-specific pairs to avoid typos and other
-problems with the indirection involved with the channel strings:
-
-```js
-// Broadcasts.js
-import { Broadcast, Subscriber } from 'react-broadcast'
-
-const CurrentUserChannel = 'currentUser'
-
-export const CurrentUserBroadcast = (props) =>
-  <Broadcast {...props} channel={CurrentUserChannel} />
-
-export const CurrentUserSubscriber = (props) =>
-  <Subscriber {...props} channel={CurrentUserChannel} />
-
-// App.js
-import { CurrentUserBroadcast, CurrentUserSubscriber } from './Broadcasts'
-
-<CurrentUserBroadcast value={user}/>
-<CurrentUserSubscriber>{user => ...}</CurrentUserSubscriber>
-```
-
 Enjoy!
 
 ## About
 
 react-broadcast is developed and maintained by [React Training](https://reacttraining.com). If
-you're interested in learning more about what React can do for your company, please
-[get in touch](mailto:hello@reacttraining.com)!
+you're interested in learning more about what React can do for your company, please [get in
+touch](mailto:hello@reacttraining.com)!
