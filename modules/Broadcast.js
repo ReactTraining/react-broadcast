@@ -2,26 +2,28 @@ import React from "react"
 import PropTypes from "prop-types"
 import invariant from "invariant"
 
-function createBroadcast(initialState) {
-  let listeners = []
-  let currentState = initialState
+function createBroadcast(initialValue) {
+  let currentValue = initialValue
+  let subscribers = []
 
-  const getState = () => currentState
+  const getValue = () => currentValue
 
-  const setState = state => {
-    currentState = state
-    listeners.forEach(listener => listener(currentState))
+  const publish = state => {
+    currentValue = state
+    subscribers.forEach(s => s(currentValue))
   }
 
-  const subscribe = listener => {
-    listeners.push(listener)
+  const subscribe = subscriber => {
+    subscribers.push(subscriber)
 
-    return () => (listeners = listeners.filter(item => item !== listener))
+    return () => {
+      subscribers = subscribers.filter(s => s !== subscriber)
+    }
   }
 
   return {
-    getState,
-    setState,
+    getValue,
+    publish,
     subscribe
   }
 }
@@ -70,7 +72,7 @@ class Broadcast extends React.Component {
     invariant(this.props.channel === nextProps.channel, "You cannot change <Broadcast channel>")
 
     if (!this.props.compareValues(this.props.value, nextProps.value)) {
-      this.broadcast.setState(nextProps.value)
+      this.broadcast.publish(nextProps.value)
     }
   }
 

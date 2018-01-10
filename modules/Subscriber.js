@@ -44,7 +44,7 @@ class Subscriber extends React.Component {
 
     if (broadcast) {
       this.setState({
-        value: broadcast.getState()
+        value: broadcast.getValue()
       })
     }
   }
