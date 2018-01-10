@@ -24,8 +24,8 @@
     "react": ">=15 || ^16"
   },
   "dependencies": {
-    "invariant": "^2.2.1",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
