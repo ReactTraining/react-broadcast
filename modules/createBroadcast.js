@@ -1,26 +1,29 @@
 import React from "react"
 import PropTypes from "prop-types"
-import invariant from "invariant"
+import warning from "warning"
 
 function createBroadcast(initialValue) {
-  let subscribers = []
   let currentValue = initialValue
+  let subscribers = []
 
   const publish = value => {
     currentValue = value
-    subscribers.forEach(subscriber => subscriber(currentValue))
+    subscribers.forEach(s => s(currentValue))
   }
 
   const subscribe = subscriber => {
     subscribers.push(subscriber)
-    return () => (subscribers = subscribers.filter(item => item !== subscriber))
+
+    return () => {
+      subscribers = subscribers.filter(s => s !== subscriber)
+    }
   }
 
-  let broadcastInstance = null
+  const channel = Symbol()
 
   /**
    * A <Broadcast> is a container for a "value" that its <Subscriber>
-   * may subscribe to. A <Broadcast> may only be rendered once.
+   * may subscribe to.
    */
   class Broadcast extends React.Component {
     /**
@@ -43,16 +46,24 @@ function createBroadcast(initialValue) {
      */
     static initialValue = initialValue
 
+    static contextTypes = {
+      broadcasts: PropTypes.object
+    }
+
+    static childContextTypes = {
+      broadcasts: PropTypes.object.isRequired
+    }
+
+    getChildContext() {
+      return {
+        broadcasts: {
+          ...this.context.broadcasts,
+          [channel]: true
+        }
+      }
+    }
+
     componentDidMount() {
-      invariant(
-        broadcastInstance == null,
-        "You cannot render the same <Broadcast> twice! There must be only one source of truth. " +
-          "Instead of rendering another <Broadcast>, just change the `value` prop of the one " +
-          "you already rendered."
-      )
-
-      broadcastInstance = this
-
       if (this.props.value !== currentValue) {
         // TODO: Publish and warn about the double render
         // problem if there are existing subscribers? Or
@@ -66,12 +77,6 @@ function createBroadcast(initialValue) {
       }
     }
 
-    componentWillUnmount() {
-      if (broadcastInstance === this) {
-        broadcastInstance = null
-      }
-    }
-
     render() {
       return this.props.children
     }
@@ -82,8 +87,17 @@ function createBroadcast(initialValue) {
    * and calls its render prop with the result.
    */
   class Subscriber extends React.Component {
+    static contextTypes = {
+      broadcasts: PropTypes.object
+    }
+
     static propTypes = {
-      children: PropTypes.func
+      children: PropTypes.func,
+      quiet: PropTypes.bool
+    }
+
+    static defaultProps = {
+      quiet: false
     }
 
     state = {
@@ -91,15 +105,23 @@ function createBroadcast(initialValue) {
     }
 
     componentDidMount() {
-      this.unsubscribe = subscribe(value => {
-        this.setState({ value })
-      })
+      const broadcasts = this.context.broadcasts
+      const inContext = broadcasts && broadcasts[channel]
+
+      warning(
+        inContext || this.props.quiet,
+        "<Subscriber> was rendered outside the context of its <Broadcast>"
+      )
+
+      if (inContext) {
+        this.unsubscribe = subscribe(value => {
+          this.setState({ value })
+        })
+      }
     }
 
     componentWillUnmount() {
-      if (this.unsubscribe) {
-        this.unsubscribe()
-      }
+      if (this.unsubscribe) this.unsubscribe()
     }
 
     render() {
