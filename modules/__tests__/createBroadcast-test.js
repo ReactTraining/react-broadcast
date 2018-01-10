@@ -23,17 +23,19 @@ describe("A <Subscriber>", () => {
 
   it("gets the initial broadcast value on the initial render", done => {
     const initialValue = "cupcakes"
-    const { Subscriber } = createBroadcast(initialValue)
+    const { Broadcast, Subscriber } = createBroadcast(initialValue)
 
     let actualValue
 
     ReactDOM.render(
-      <Subscriber
-        children={value => {
-          actualValue = value
-          return null
-        }}
-      />,
+      <Broadcast>
+        <Subscriber
+          children={value => {
+            actualValue = value
+            return null
+          }}
+        />
+      </Broadcast>,
       node,
       () => {
         expect(actualValue).toBe(initialValue)
