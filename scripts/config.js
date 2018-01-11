@@ -45,8 +45,4 @@ const config = {
   plugins: getPlugins(process.env.BUILD_ENV)
 }
 
-if (process.env.BUILD_NAME) {
-  config.name = process.env.BUILD_NAME
-}
-
 module.exports = config

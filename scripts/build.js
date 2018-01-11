@@ -15,23 +15,23 @@ const exec = (command, extraEnv) =>
 
 const packageName = require("../package").name
 
-console.log("\nBuilding CommonJS modules...")
-
-exec(`rollup -c scripts/config.js -f cjs -o cjs/${packageName}.js`)
-
 console.log("\nBuilding ES modules...")
 
 exec(`rollup -c scripts/config.js -f es -o esm/${packageName}.js`)
 
+console.log("\nBuilding CommonJS modules...")
+
+exec(`rollup -c scripts/config.js -f cjs -o cjs/${packageName}.js`)
+
 console.log("\nBuilding UMD modules...")
 
-exec(`rollup -c scripts/config.js -f umd -o umd/${packageName}.js`, {
-  BUILD_NAME: pascalCase(packageName),
+const varName = pascalCase(packageName)
+
+exec(`rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.js`, {
   BUILD_ENV: "development"
 })
 
-exec(`rollup -c scripts/config.js -f umd -o umd/${packageName}.min.js`, {
-  BUILD_NAME: pascalCase(packageName),
+exec(`rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.min.js`, {
   BUILD_ENV: "production"
 })
 
