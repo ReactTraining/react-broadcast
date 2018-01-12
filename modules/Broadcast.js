@@ -1,31 +1,31 @@
-import React from "react"
-import PropTypes from "prop-types"
-import invariant from "invariant"
+import React from "react";
+import PropTypes from "prop-types";
+import invariant from "invariant";
 
 function createBroadcast(initialValue) {
-  let currentValue = initialValue
-  let subscribers = []
+  let currentValue = initialValue;
+  let subscribers = [];
 
-  const getValue = () => currentValue
+  const getValue = () => currentValue;
 
   const publish = state => {
-    currentValue = state
-    subscribers.forEach(s => s(currentValue))
-  }
+    currentValue = state;
+    subscribers.forEach(s => s(currentValue));
+  };
 
   const subscribe = subscriber => {
-    subscribers.push(subscriber)
+    subscribers.push(subscriber);
 
     return () => {
-      subscribers = subscribers.filter(s => s !== subscriber)
-    }
-  }
+      subscribers = subscribers.filter(s => s !== subscriber);
+    };
+  };
 
   return {
     getValue,
     publish,
     subscribe
-  }
+  };
 }
 
 /**
@@ -43,21 +43,21 @@ class Broadcast extends React.Component {
     children: PropTypes.node.isRequired,
     compareValues: PropTypes.func,
     value: PropTypes.any
-  }
+  };
 
   static defaultProps = {
     compareValues: (prevValue, nextValue) => prevValue === nextValue
-  }
+  };
 
   static contextTypes = {
     broadcasts: PropTypes.object
-  }
+  };
 
   static childContextTypes = {
     broadcasts: PropTypes.object.isRequired
-  }
+  };
 
-  broadcast = createBroadcast(this.props.value)
+  broadcast = createBroadcast(this.props.value);
 
   getChildContext() {
     return {
@@ -65,20 +65,23 @@ class Broadcast extends React.Component {
         ...this.context.broadcasts,
         [this.props.channel]: this.broadcast
       }
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
-    invariant(this.props.channel === nextProps.channel, "You cannot change <Broadcast channel>")
+    invariant(
+      this.props.channel === nextProps.channel,
+      "You cannot change <Broadcast channel>"
+    );
 
     if (!this.props.compareValues(this.props.value, nextProps.value)) {
-      this.broadcast.publish(nextProps.value)
+      this.broadcast.publish(nextProps.value);
     }
   }
 
   render() {
-    return React.Children.only(this.props.children)
+    return React.Children.only(this.props.children);
   }
 }
 
-export default Broadcast
+export default Broadcast;

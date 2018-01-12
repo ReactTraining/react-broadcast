@@ -70,9 +70,5 @@
     "subscriber",
     "subscription",
     "subscriptions"
-  ],
-  "prettier": {
-    "printWidth": 100,
-    "semi": false
-  }
+  ]
 }
