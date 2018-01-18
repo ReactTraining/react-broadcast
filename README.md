@@ -32,10 +32,10 @@ Then, use as you would anything else:
 
 ```js
 // using ES6 modules
-import { createBroadcast } from "react-broadcast"
+import { createContext } from "react-broadcast";
 
 // using CommonJS modules
-var createBroadcast = require("react-broadcast").createBroadcast
+var createContext = require("react-broadcast").createContext;
 ```
 
 The UMD build is also available on [unpkg](https://unpkg.com):
@@ -51,12 +51,12 @@ You can find the library on `window.ReactBroadcast`.
 The following is a contrived example, but illustrates the basic functionality we're after:
 
 ```js
-import React from "react"
-import { createBroadcast } from "react-broadcast"
+import React from "react";
+import { createContext } from "react-broadcast";
 
-const users = [{ name: "Michael Jackson" }, { name: "Ryan Florence" }]
+const users = [{ name: "Michael Jackson" }, { name: "Ryan Florence" }];
 
-const { Broadcast, Subscriber } = createBroadcast(users[0])
+const { Provider, Consumer } = createContext(users[0]);
 
 class UpdateBlocker extends React.Component {
   shouldComponentUpdate() {
@@ -66,35 +66,37 @@ class UpdateBlocker extends React.Component {
     // output will not change, but it makes it difficult for libraries
     // to communicate changes down the hierarchy that you don't really
     // know anything about.
-    return false
+    return false;
   }
 
   render() {
-    return this.props.children
+    return this.props.children;
   }
 }
 
 class App extends React.Component {
   state = {
-    currentUser: Broadcast.initialValue
-  }
+    currentUser: Provider.defaultValue
+  };
 
   componentDidMount() {
     // Randomly change the current user every 2 seconds.
     setInterval(() => {
-      const index = Math.floor(Math.random() * users.length)
-      this.setState({ currentUser: users[index] })
-    }, 2000)
+      const index = Math.floor(Math.random() * users.length);
+      this.setState({ currentUser: users[index] });
+    }, 2000);
   }
 
   render() {
     return (
-      <Broadcast value={this.state.currentUser}>
+      <Provider value={this.state.currentUser}>
         <UpdateBlocker>
-          <Subscriber>{currentUser => <p>The current user is {currentUser.name}</p>}</Subscriber>
+          <Consumer>
+            {currentUser => <p>The current user is {currentUser.name}</p>}
+          </Consumer>
         </UpdateBlocker>
-      </Broadcast>
-    )
+      </Provider>
+    );
   }
 }
 ```
