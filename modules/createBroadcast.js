@@ -53,6 +53,7 @@ function createBroadcast(defaultValue) {
     static defaultValue = defaultValue;
 
     static propTypes = {
+      children: PropTypes.node,
       value: valueType
     };
 
