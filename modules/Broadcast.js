@@ -74,7 +74,7 @@ class Broadcast extends React.Component {
   componentWillMount() {
     deprecationWarning(
       "<Broadcast> is deprecated and will be removed in the next major release. " +
-        "Please use createBroadcast instead. See https://goo.gl/QAF37J for more info."
+        "Please use createContext instead. See https://goo.gl/QAF37J for more info."
     );
   }
 

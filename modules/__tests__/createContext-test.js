@@ -1,29 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Simulate } from "react-dom/test-utils";
-import createBroadcast from "../createBroadcast";
+import createContext from "../createContext";
 
-describe("createBroadcast", () => {
-  it("creates a Broadcast component", () => {
-    const { Broadcast } = createBroadcast();
-    expect(typeof Broadcast).toBe("function");
+describe("createContext", () => {
+  it("creates a Provider component", () => {
+    const { Provider } = createContext();
+    expect(typeof Provider).toBe("function");
   });
 
-  it("creates a Subscriber component", () => {
-    const { Subscriber } = createBroadcast();
-    expect(typeof Subscriber).toBe("function");
+  it("creates a Consumer component", () => {
+    const { Consumer } = createContext();
+    expect(typeof Consumer).toBe("function");
   });
 });
 
-describe("A <Broadcast>", () => {
+describe("A <Provider>", () => {
   it("knows its default value", () => {
     const defaultValue = "bubblegum";
-    const { Broadcast } = createBroadcast(defaultValue);
-    expect(defaultValue).toEqual(Broadcast.defaultValue);
+    const { Provider } = createContext(defaultValue);
+    expect(defaultValue).toEqual(Provider.defaultValue);
   });
 });
 
-describe("A <Subscriber>", () => {
+describe("A <Consumer>", () => {
   let node;
   beforeEach(() => {
     node = document.createElement("div");
@@ -31,19 +31,19 @@ describe("A <Subscriber>", () => {
 
   it("gets the initial broadcast value on the initial render", done => {
     const defaultValue = "cupcakes";
-    const { Broadcast, Subscriber } = createBroadcast(defaultValue);
+    const { Provider, Consumer } = createContext(defaultValue);
 
     let actualValue;
 
     ReactDOM.render(
-      <Broadcast>
-        <Subscriber
+      <Provider>
+        <Consumer
           children={value => {
             actualValue = value;
             return null;
           }}
         />
-      </Broadcast>,
+      </Provider>,
       node,
       () => {
         expect(actualValue).toBe(defaultValue);
@@ -53,22 +53,22 @@ describe("A <Subscriber>", () => {
   });
 
   it("gets the updated broadcast value as it changes", done => {
-    const { Broadcast, Subscriber } = createBroadcast("cupcakes");
+    const { Provider, Consumer } = createContext("cupcakes");
 
     class Parent extends React.Component {
       state = {
-        value: Broadcast.defaultValue
+        value: Provider.defaultValue
       };
 
       render() {
         return (
-          <Broadcast value={this.state.value}>
+          <Provider value={this.state.value}>
             <button
               onClick={() => this.setState({ value: "bubblegum" })}
               ref={node => (this.button = node)}
             />
             <Child />
-          </Broadcast>
+          </Provider>
         );
       }
     }
@@ -83,13 +83,13 @@ describe("A <Subscriber>", () => {
 
       render() {
         return (
-          <Subscriber
+          <Consumer
             children={value => {
               if (childDidRender) {
                 expect(value).toBe("bubblegum");
                 done();
               } else {
-                expect(value).toBe(Broadcast.defaultValue);
+                expect(value).toBe(Provider.defaultValue);
               }
 
               childDidRender = true;
@@ -106,24 +106,24 @@ describe("A <Subscriber>", () => {
     });
   });
 
-  describe("under a <Broadcast> with a value different from the default", () => {
+  describe("under a <Provider> with a value different from the default", () => {
     it("gets the broadcast value on the initial render", () => {
       const defaultValue = "bubblegum";
-      const { Broadcast, Subscriber } = createBroadcast(defaultValue);
+      const { Provider, Consumer } = createContext(defaultValue);
 
       const node = document.createElement("div");
 
       let actualValue;
 
       ReactDOM.render(
-        <Broadcast value="cupcakes">
-          <Subscriber
+        <Provider value="cupcakes">
+          <Consumer
             children={value => {
               actualValue = value;
               return null;
             }}
           />
-        </Broadcast>,
+        </Provider>,
         node,
         () => {
           expect(actualValue).toEqual("cupcakes");

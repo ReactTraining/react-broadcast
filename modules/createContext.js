@@ -20,33 +20,33 @@ function getPropType(value) {
   return valueTypes[type] || PropTypes.any;
 }
 
-function createBroadcast(defaultValue) {
+function createContext(defaultValue) {
   const valueType = getPropType(defaultValue);
   const channel = Symbol();
 
   /**
-   * A <Broadcast> is a container for a "value" that its <Subscriber>
+   * A <Provider> is a container for a "value" that its <Consumer>
    * may subscribe to.
    */
-  class Broadcast extends React.Component {
+  class Provider extends React.Component {
     /**
      * For convenience when setting up a component that tracks this
-     * <Broadcast>'s value in state.
+     * <Provider>'s value in state.
      *
      *     const {
-     *       Broadcast,
-     *       Subscriber
-     *     } = createBroadcast("default value")
+     *       Provider,
+     *       Consumer
+     *     } = createContext("default value")
      *
      *     class MyComponent {
      *       state = {
-     *         broadcastValue: Broadcast.defaultValue
+     *         broadcastValue: Provider.defaultValue
      *       }
      *
      *       // ...
      *
      *       render() {
-     *         return <Broadcast value={this.state.broadcastValue}/>
+     *         return <Provider value={this.state.broadcastValue}/>
      *       }
      *     }
      */
@@ -107,10 +107,10 @@ function createBroadcast(defaultValue) {
   }
 
   /**
-   * A <Subscriber> sets state whenever its <Broadcast value> changes
+   * A <Consumer> sets state whenever its <Provider value> changes
    * and calls its render prop with the result.
    */
-  class Subscriber extends React.Component {
+  class Consumer extends React.Component {
     static contextTypes = {
       broadcasts: PropTypes.object
     };
@@ -138,7 +138,7 @@ function createBroadcast(defaultValue) {
       } else {
         warning(
           this.props.quiet,
-          "<Subscriber> was rendered outside the context of its <Broadcast>"
+          "<Consumer> was rendered outside the context of its <Provider>"
         );
       }
     }
@@ -154,9 +154,9 @@ function createBroadcast(defaultValue) {
   }
 
   return {
-    Broadcast,
-    Subscriber
+    Provider,
+    Consumer
   };
 }
 
-export default createBroadcast;
+export default createContext;
