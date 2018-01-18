@@ -1,25 +1,28 @@
-import React from "react"
-import PropTypes from "prop-types"
-import warning from "warning"
+import React from "react";
+import PropTypes from "prop-types";
+import warning from "warning";
 
-function createBroadcast(initialValue) {
-  let currentValue = initialValue
-  let subscribers = []
+const valueTypes = {
+  string: PropTypes.string,
+  number: PropTypes.number,
+  function: PropTypes.func,
+  boolean: PropTypes.bool
+};
 
-  const publish = value => {
-    currentValue = value
-    subscribers.forEach(s => s(currentValue))
+// TODO: This could probably be improved.
+function getPropType(value) {
+  const type = typeof value;
+
+  if (type === "object") {
+    return Array.isArray(value) ? PropTypes.array : PropTypes.object;
   }
 
-  const subscribe = subscriber => {
-    subscribers.push(subscriber)
+  return valueTypes[type] || PropTypes.any;
+}
 
-    return () => {
-      subscribers = subscribers.filter(s => s !== subscriber)
-    }
-  }
-
-  const channel = Symbol()
+function createBroadcast(defaultValue) {
+  const valueType = getPropType(defaultValue);
+  const channel = Symbol();
 
   /**
    * A <Broadcast> is a container for a "value" that its <Subscriber>
@@ -27,14 +30,17 @@ function createBroadcast(initialValue) {
    */
   class Broadcast extends React.Component {
     /**
-     * For convenience when setting up a component that tracks this <Broadcast>'s
-     * value in state.
+     * For convenience when setting up a component that tracks this
+     * <Broadcast>'s value in state.
      *
-     *     const { Broadcast, Subscriber } = createBroadcast("value")
+     *     const {
+     *       Broadcast,
+     *       Subscriber
+     *     } = createBroadcast("default value")
      *
      *     class MyComponent {
      *       state = {
-     *         broadcastValue: Broadcast.initialValue
+     *         broadcastValue: Broadcast.defaultValue
      *       }
      *
      *       // ...
@@ -44,41 +50,58 @@ function createBroadcast(initialValue) {
      *       }
      *     }
      */
-    static initialValue = initialValue
+    static defaultValue = defaultValue;
+
+    static propTypes = {
+      value: valueType
+    };
+
+    static defaultProps = {
+      value: defaultValue
+    };
 
     static contextTypes = {
       broadcasts: PropTypes.object
-    }
+    };
 
     static childContextTypes = {
       broadcasts: PropTypes.object.isRequired
-    }
+    };
+
+    subscribers = [];
+
+    publish = value => {
+      this.subscribers.forEach(s => s(value));
+    };
+
+    subscribe = subscriber => {
+      this.subscribers.push(subscriber);
+
+      return () => {
+        this.subscribers = this.subscribers.filter(s => s !== subscriber);
+      };
+    };
 
     getChildContext() {
       return {
         broadcasts: {
           ...this.context.broadcasts,
-          [channel]: true
+          [channel]: {
+            initialValue: this.props.value,
+            subscribe: this.subscribe
+          }
         }
-      }
-    }
-
-    componentDidMount() {
-      if (this.props.value !== currentValue) {
-        // TODO: Publish and warn about the double render
-        // problem if there are existing subscribers? Or
-        // just ignore the discrepancy?
-      }
+      };
     }
 
     componentWillReceiveProps(nextProps) {
       if (this.props.value !== nextProps.value) {
-        publish(nextProps.value)
+        this.publish(nextProps.value);
       }
     }
 
     render() {
-      return this.props.children
+      return this.props.children;
     }
   }
 
@@ -89,51 +112,50 @@ function createBroadcast(initialValue) {
   class Subscriber extends React.Component {
     static contextTypes = {
       broadcasts: PropTypes.object
-    }
+    };
 
     static propTypes = {
       children: PropTypes.func,
       quiet: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
       quiet: false
-    }
+    };
+
+    broadcast = this.context.broadcasts && this.context.broadcasts[channel];
 
     state = {
-      value: currentValue
-    }
+      value: this.broadcast ? this.broadcast.initialValue : defaultValue
+    };
 
     componentDidMount() {
-      const broadcasts = this.context.broadcasts
-      const inContext = broadcasts && broadcasts[channel]
-
-      warning(
-        inContext || this.props.quiet,
-        "<Subscriber> was rendered outside the context of its <Broadcast>"
-      )
-
-      if (inContext) {
-        this.unsubscribe = subscribe(value => {
-          this.setState({ value })
-        })
+      if (this.broadcast) {
+        this.unsubscribe = this.broadcast.subscribe(value => {
+          this.setState({ value });
+        });
+      } else {
+        warning(
+          this.props.quiet,
+          "<Subscriber> was rendered outside the context of its <Broadcast>"
+        );
       }
     }
 
     componentWillUnmount() {
-      if (this.unsubscribe) this.unsubscribe()
+      if (this.unsubscribe) this.unsubscribe();
     }
 
     render() {
-      const { children } = this.props
-      return children ? children(this.state.value) : null
+      const { children } = this.props;
+      return children ? children(this.state.value) : null;
     }
   }
 
   return {
     Broadcast,
     Subscriber
-  }
+  };
 }
 
-export default createBroadcast
+export default createBroadcast;
