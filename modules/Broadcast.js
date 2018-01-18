@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import invariant from "invariant";
+import createDeprecationWarning from "./createDeprecationWarning";
+
+const deprecationWarning = createDeprecationWarning();
 
 function createBroadcast(initialValue) {
   let currentValue = initialValue;
@@ -66,6 +69,13 @@ class Broadcast extends React.Component {
         [this.props.channel]: this.broadcast
       }
     };
+  }
+
+  componentWillMount() {
+    deprecationWarning(
+      "<Broadcast> is deprecated and will be removed in the next major release. " +
+        "Please use createBroadcast instead. See https://goo.gl/QAF37J for more info."
+    );
   }
 
   componentWillReceiveProps(nextProps) {
