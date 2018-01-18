@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import invariant from "invariant";
+import createDeprecationWarning from "./createDeprecationWarning";
+
+const deprecationWarning = createDeprecationWarning();
 
 /**
  * A <Subscriber> pulls the value for a channel off of context.broadcasts
@@ -40,6 +43,11 @@ class Subscriber extends React.Component {
   }
 
   componentWillMount() {
+    deprecationWarning(
+      "<Subscriber> is deprecated and will be removed in the next major release. " +
+        "Please use createBroadcast instead. See https://goo.gl/QAF37J for more info."
+    );
+
     const broadcast = this.getBroadcast();
 
     if (broadcast) {
