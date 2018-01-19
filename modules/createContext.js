@@ -20,9 +20,12 @@ function getPropType(value) {
   return valueTypes[type] || PropTypes.any;
 }
 
+// TODO: Swap this out for Symbol once we don't need a shim for it.
+let uid = 1;
+
 function createContext(defaultValue) {
   const valueType = getPropType(defaultValue);
-  const channel = Symbol();
+  const channel = uid++;
 
   /**
    * A <Provider> is a container for a "value" that its <Consumer>
