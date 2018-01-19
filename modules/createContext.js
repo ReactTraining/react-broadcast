@@ -36,22 +36,19 @@ function createContext(defaultValue) {
      * For convenience when setting up a component that tracks this
      * <Provider>'s value in state.
      *
-     *     const {
-     *       Provider,
-     *       Consumer
-     *     } = createContext("default value")
+     *   const { Provider, Consumer } = createContext("default value")
      *
-     *     class MyComponent {
-     *       state = {
-     *         broadcastValue: Provider.defaultValue
-     *       }
-     *
-     *       // ...
-     *
-     *       render() {
-     *         return <Provider value={this.state.broadcastValue}/>
-     *       }
+     *   class MyComponent {
+     *     state = {
+     *       value: Provider.defaultValue
      *     }
+     *
+     *     // ...
+     *
+     *     render() {
+     *       return <Provider value={this.state.value}/>
+     *     }
+     *   }
      */
     static defaultValue = defaultValue;
 
