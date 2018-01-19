@@ -91,8 +91,8 @@ function createContext(defaultValue) {
         broadcasts: {
           ...this.context.broadcasts,
           [channel]: {
-            initialValue: this.props.value,
-            subscribe: this.subscribe
+            subscribe: this.subscribe,
+            value: this.props.value
           }
         }
       };
@@ -130,7 +130,7 @@ function createContext(defaultValue) {
     broadcast = this.context.broadcasts && this.context.broadcasts[channel];
 
     state = {
-      value: this.broadcast ? this.broadcast.initialValue : defaultValue
+      value: this.broadcast ? this.broadcast.value : defaultValue
     };
 
     componentDidMount() {
