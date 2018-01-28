@@ -13,6 +13,16 @@ describe("createContext", () => {
     const { Consumer } = createContext();
     expect(typeof Consumer).toBe("function");
   });
+
+  it("provides a provide function", () => {
+    const { provide } = createContext();
+    expect(typeof provide).toBe("function");
+  });
+
+  it("provides a consume function", () => {
+    const { consume } = createContext();
+    expect(typeof consume).toBe("function");
+  });
 });
 
 describe("A <Provider>", () => {
@@ -129,6 +139,61 @@ describe("A <Consumer>", () => {
           expect(actualValue).toEqual("cupcakes");
         }
       );
+    });
+  });
+});
+
+describe("provide", () => {
+  it("places the expected value on the context", () => {
+    let node = document.createElement("div");
+    
+    const defaultValue = "licorice";
+    let actualValue;
+    let providedValue = "taffy";
+
+    const { provide, Consumer } = createContext(defaultValue);
+    const SweetsProvider = ({ value, children }) => (
+      provide(value, children)
+    );
+    
+    ReactDOM.render((
+      <SweetsProvider value={providedValue}>
+        <Consumer>
+          {value => {
+            actualValue = value;
+            return null;
+          }}
+        </Consumer>
+      </SweetsProvider>
+    ), node, () => {
+      expect(actualValue).toBe(providedValue);
+    });
+  });
+});
+
+describe("consume", () => {
+  it("is called with the correct value", () => {
+    let node = document.createElement("div");
+
+    const defaultValue = "chocolate";
+    let actualValue;
+    let providedValue = "popsicle";
+
+    const { Provider, consume } = createContext(defaultValue);
+
+    const SweetTooth = () => (
+      consume(value => {
+        actualValue = value;
+        return null;
+      })
+    );
+
+    ReactDOM.render((
+      <Provider value={providedValue}>
+        <SweetTooth />
+      </Provider>
+    ), node, () => {
+      expect(actualValue).toBe(providedValue);
     });
   });
 });

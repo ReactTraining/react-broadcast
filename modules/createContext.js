@@ -27,6 +27,22 @@ function createContext(defaultValue) {
   const valueType = getPropType(defaultValue);
   const channel = uid++;
 
+  const provide = (value, children) => {
+    return (
+      <Provider value={value}>
+        {children}
+      </Provider>
+    );
+  };
+
+  const consume = (render) => {
+    return (
+      <Consumer>
+        {render}
+      </Consumer>
+    );
+  };
+
   /**
    * A <Provider> is a container for a "value" that its <Consumer>
    * may subscribe to.
@@ -154,6 +170,8 @@ function createContext(defaultValue) {
   }
 
   return {
+    provide,
+    consume,
     Provider,
     Consumer
   };
