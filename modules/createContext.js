@@ -2,29 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import warning from "warning";
 
-const valueTypes = {
-  string: PropTypes.string,
-  number: PropTypes.number,
-  function: PropTypes.func,
-  boolean: PropTypes.bool
-};
-
-// TODO: This could probably be improved.
-function getPropType(value) {
-  const type = typeof value;
-
-  if (type === "object") {
-    return Array.isArray(value) ? PropTypes.array : PropTypes.object;
-  }
-
-  return valueTypes[type] || PropTypes.any;
-}
-
 // TODO: Swap this out for Symbol once we don't need a shim for it.
 let uid = 1;
 
 function createContext(defaultValue) {
-  const valueType = getPropType(defaultValue);
   const channel = uid++;
 
   /**
@@ -54,7 +35,7 @@ function createContext(defaultValue) {
 
     static propTypes = {
       children: PropTypes.node,
-      value: valueType
+      value: PropTypes.any
     };
 
     static defaultProps = {
