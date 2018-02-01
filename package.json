@@ -15,9 +15,8 @@
   "unpkg": "umd/react-broadcast.js",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "clean": "git clean -fdX .",
     "prepublishOnly": "node ./scripts/build.js",
-    "release": "node ./scripts/release.js",
+    "clean": "git clean -fdX .",
     "lint": "eslint modules",
     "test": "jest"
   },
@@ -48,7 +47,6 @@
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "readline-sync": "^1.4.4",
     "rollup": "^0.53.4",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",

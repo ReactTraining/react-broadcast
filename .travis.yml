@@ -1,10 +1,19 @@
 language: node_js
-node_js:
-- stable
-branches:
-  only:
-  - master
+node_js: node
 cache:
-  yarn: true
   directories:
-    - node_modules
+  - "$HOME/.cache/yarn"
+  - node_modules
+env:
+  global:
+  - secure: pN5iwVeB1hwx0OxzqZ13DzveMkaDmJnw4jPqIYMnnp3G281tAH77SpTqrh7Jg/lrDAyZKNNlvOa6kEK5Ue7Jd5XMCmYvkaAS3gm+uiQV8GNyhD1sfANuzgKAKjB+RGIcWNGe26dRSlKqdbY4gJcqgqqNS2t28kZw9x8P+ExfrfZZTZI4ChCJMJnOA/Nzron+RpJEUCM3nGE0Nzpdrri1E+n4K3WUEM7YGm8qy+O5rxqGwgKYm8frBfE/Rm8Sz+Y4Z0gWdHc92M7lL7JBHHJoDBoGPdyB8I2Cj2Gvzh4qebfJrv+7ar+9nda9VTA9tSaoHn69Mma4rqGQhkD7R3RHDL9ZKy7KuMsDLoIMRCwqKamyzzKhAQjyeZU+CLvE3PoQanIA4oTCjupTWTtfw8f2XCTd8zg8qIzewAg7/qqgUKx2HYyNMsP0xqeYTTVMWChAZ2NhPtDNY8ktt0jjGlL5sltsWzSl2CIx7zFV1W9kkLjdxZublaASA4ouNG4rXSN+eQeHDb/E5WVxNcz9NIDfgGfiGbxb7e+Boz5Cbm+Yz/VZAS35TuU1Q46HiBi2IPjqtbgAG+zq+l01jgDBtF3vnu5iYK88Wyd5Oz+q+LFxpiAxTMhJb3dr65ezG8s/nFNZrJWBRIa78jKTkJSEx8WeBwhAuL1TKi/ROn+famgMhHw=
+  - NPM_TAG=$([[ "$TRAVIS_TAG" == *-* ]] && echo "next" || echo "latest")
+deploy:
+  provider: npm
+  email: mjijackson@gmail.com
+  api_key: "$NPM_TOKEN"
+  tag: "$NPM_TAG"
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: '"$TRAVIS_TAG" =~ ^v[0-9]'
