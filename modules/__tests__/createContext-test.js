@@ -196,8 +196,6 @@ describe("nested <Provider>", () => {
       }
     }
 
-    let childDidRender = false;
-
     class Child extends React.Component {
       render() {
         return (
