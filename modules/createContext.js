@@ -64,13 +64,17 @@ function createContext(defaultValue) {
       };
     };
 
+    getValue = () => {
+      return this.props.value;
+    };
+
     getChildContext() {
       return {
         broadcasts: {
           ...this.context.broadcasts,
           [channel]: {
             subscribe: this.subscribe,
-            value: this.props.value
+            getValue: this.getValue
           }
         }
       };
@@ -108,7 +112,7 @@ function createContext(defaultValue) {
     broadcast = this.context.broadcasts && this.context.broadcasts[channel];
 
     state = {
-      value: this.broadcast ? this.broadcast.value : defaultValue
+      value: this.broadcast ? this.broadcast.getValue() : defaultValue
     };
 
     componentDidMount() {
