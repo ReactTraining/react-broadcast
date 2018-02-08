@@ -132,3 +132,88 @@ describe("A <Consumer>", () => {
     });
   });
 });
+
+describe("nested <Provider>", () => {
+  let node;
+  beforeEach(() => {
+    node = document.createElement("div");
+  });
+
+  it("gets the updated broadcast value as it changes", done => {
+    const ParentContext = createContext("cupcakes");
+    const ChildContext = createContext();
+
+    class UpdateBlocker extends React.Component {
+      shouldComponentUpdate() {
+        return false;
+      }
+
+      render() {
+        return this.props.children;
+      }
+    }
+
+    class AsyncRender extends React.Component {
+      state = {
+        shouldRender: false
+      };
+
+      componentDidMount() {
+        // simulate asynchronous rendering
+        setTimeout(() => {
+          this.setState({
+            shouldRender: true
+          });
+        });
+      }
+
+      render() {
+        return this.state.shouldRender && this.props.children;
+      }
+    }
+
+    class Parent extends React.Component {
+      state = {
+        value: ParentContext.Provider.defaultValue
+      };
+
+      render() {
+        return (
+          <ParentContext.Provider value={this.state.value}>
+            <button
+              onClick={() => this.setState({ value: "bubblegum" })}
+              ref={node => (this.button = node)}
+            />
+            <UpdateBlocker>
+              <ChildContext.Provider>
+                <AsyncRender>
+                  <Child />
+                </AsyncRender>
+              </ChildContext.Provider>
+            </UpdateBlocker>
+          </ParentContext.Provider>
+        );
+      }
+    }
+
+    class Child extends React.Component {
+      render() {
+        return (
+          <ParentContext.Consumer
+            children={value => {
+              expect(value).toBe("bubblegum");
+
+              done();
+
+              return null;
+            }}
+          />
+        );
+      }
+    }
+
+    ReactDOM.render(<Parent />, node, function() {
+      Simulate.click(this.button);
+    });
+  });
+});
