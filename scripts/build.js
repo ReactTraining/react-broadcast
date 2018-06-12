@@ -30,6 +30,7 @@ const varName = pascalCase(packageName);
 exec(
   `rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.js`,
   {
+    EXTERNALS: "peers",
     BUILD_ENV: "development"
   }
 );
@@ -37,6 +38,7 @@ exec(
 exec(
   `rollup -c scripts/config.js -f umd -n ${varName} -o umd/${packageName}.min.js`,
   {
+    EXTERNALS: "peers",
     BUILD_ENV: "production"
   }
 );
