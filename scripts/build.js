@@ -7,13 +7,14 @@ const gzipSize = require("gzip-size");
 
 process.chdir(path.resolve(__dirname, ".."));
 
-const exec = (command, extraEnv) =>
-  execSync(command, {
+function exec(command, extraEnv) {
+  return execSync(command, {
     stdio: "inherit",
     env: Object.assign({}, process.env, extraEnv)
   });
+}
 
-const packageName = require("../package").name;
+const packageName = require("../package.json").name;
 
 console.log("\nBuilding ES modules...");
 

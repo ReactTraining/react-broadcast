@@ -3,18 +3,17 @@ const commonjs = require("rollup-plugin-commonjs");
 const replace = require("rollup-plugin-replace");
 const resolve = require("rollup-plugin-node-resolve");
 const uglify = require("rollup-plugin-uglify");
-const pkg = require("../package.json");
 
-const getExternals = externals => {
-  const deps = Object.keys(pkg.dependencies || {})
-  const peers = Object.keys(pkg.peerDependencies || {})
+const packageDeps = require("../package.json").dependencies || {};
+const packagePeers = require("../package.json").peerDependencies || {};
 
-  return externals === 'peers'
-    ? peers
-    : deps.concat(peers)
+function getExternals(externals) {
+  return externals === "peers"
+    ? Object.keys(packagePeers)
+    : Object.keys(packageDeps).concat(Object.keys(packagePeers));
 }
 
-const getPlugins = env => {
+function getPlugins(env) {
   const plugins = [resolve()];
 
   if (env) {
@@ -46,7 +45,7 @@ const getPlugins = env => {
   }
 
   return plugins;
-};
+}
 
 const config = {
   input: "modules/index.js",
